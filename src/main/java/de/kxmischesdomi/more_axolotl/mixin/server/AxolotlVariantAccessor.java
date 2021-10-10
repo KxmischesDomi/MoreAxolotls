@@ -1,4 +1,4 @@
-package de.kxmischesdomi.more_axolotl.mixin;
+package de.kxmischesdomi.more_axolotl.mixin.server;
 
 import net.minecraft.entity.passive.AxolotlEntity;
 import org.spongepowered.asm.mixin.Mixin;

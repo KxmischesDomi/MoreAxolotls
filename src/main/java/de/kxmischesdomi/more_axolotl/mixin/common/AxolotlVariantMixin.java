@@ -1,4 +1,4 @@
-package de.kxmischesdomi.more_axolotl.mixin;
+package de.kxmischesdomi.more_axolotl.mixin.common;
 
 import de.kxmischesdomi.more_axolotl.common.CustomAxolotlVariant;
 import net.minecraft.entity.passive.AxolotlEntity;

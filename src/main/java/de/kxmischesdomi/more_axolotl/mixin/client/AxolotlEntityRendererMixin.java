@@ -1,4 +1,4 @@
-package de.kxmischesdomi.more_axolotl.mixin;
+package de.kxmischesdomi.more_axolotl.mixin.client;
 
 import de.kxmischesdomi.more_axolotl.common.AxolotlBreeds;
 import net.minecraft.client.render.entity.AxolotlEntityRenderer;

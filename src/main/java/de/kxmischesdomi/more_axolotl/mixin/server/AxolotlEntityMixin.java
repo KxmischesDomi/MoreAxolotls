@@ -1,4 +1,4 @@
-package de.kxmischesdomi.more_axolotl.mixin;
+package de.kxmischesdomi.more_axolotl.mixin.server;
 
 import de.kxmischesdomi.more_axolotl.common.AxolotlBreeds;
 import net.minecraft.entity.EntityType;
@@ -38,7 +38,7 @@ public abstract class AxolotlEntityMixin extends AnimalEntity {
 		AxolotlEntity thisEntity = getEntity();
 		Variant variant1 = thisEntity.getVariant();
 		Variant variant2 = ((AxolotlEntity) entity).getVariant();
-		if (variant1 != variant2 && random.nextInt(10) < 4) {
+		if (variant1 != variant2) {
 			Variant result = AxolotlBreeds.getBreed(variant1, variant2, world.getRandom());
 			if (result != null) {
 				args.set(0, result);
