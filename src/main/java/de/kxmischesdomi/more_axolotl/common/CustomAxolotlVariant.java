@@ -16,7 +16,7 @@ public enum CustomAxolotlVariant {
 	FIREFLY_INVERTED("firefly_inverted", false),
 	LAPIS("lapis", true),
 	NEON("neon", true),
-	GLOWING("glowing", true),
+	GLOW("glow", true),
 	PIEBALD("piebald", false),
 	GRAY("gray", true),
 	SHINY("shiny", false),

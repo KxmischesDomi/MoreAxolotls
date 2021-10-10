@@ -13,7 +13,7 @@ import net.minecraft.util.registry.Registry;
  */
 public class ModItems {
 
-	public static Item AXOLOTL_CATALOG = register("axolotl_catalog", new AxolotlCatalogItem(new Item.Settings().group(ItemGroup.MISC)));
+	public static Item AXOLOTL_CATALOG = register("axolotl_catalog", new AxolotlCatalogItem(new Item.Settings().maxCount(1).group(ItemGroup.MISC)));
 
 	public static void init() {}
 
