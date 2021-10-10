@@ -2,6 +2,8 @@ package de.kxmischesdomi.more_axolotl.client.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import de.kxmischesdomi.more_axolotl.MoreAxolotl;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
@@ -28,6 +30,7 @@ import java.util.Map;
  * @author KxmischesDomi | https://github.com/kxmischesdomi
  * @since 1.0
  */
+@Environment(EnvType.CLIENT)
 public class AxolotlCatalogScreen extends Screen {
 
 	private static final Identifier CATALOG = new Identifier(MoreAxolotl.MOD_ID, "textures/gui/catalog_brown.png");
@@ -100,7 +103,7 @@ public class AxolotlCatalogScreen extends Screen {
 
 				currentLineY += 15;
 
-				renderAxolotlInfoText(matrices, getLinesOfMessage("gui.more-axolotl.catalog.description." + variant.getName()), (int) (frameStartX * 1.55), (int) (currentLineY * 1.55), 0, 0.65f, 10);
+				renderAxolotlInfoText(matrices, getLinesOfMessage("gui.more-axolotl.catalog.desc." + variant.getName()), (int) (frameStartX * 1.55), (int) (currentLineY * 1.55), 0, 0.65f, 10);
 			}
 
 			bucketXOffset = 47;
@@ -256,7 +259,7 @@ public class AxolotlCatalogScreen extends Screen {
 
 	public static String[] getLinesOfMessage(String key) {
 		String translate = I18n.translate(key);
-		if (translate.equals(key)) return new String[] { I18n.translate("gui.more-axolotl.catalog.no-description") };
+		if (translate.equals(key)) return new String[] { I18n.translate("gui.more-axolotl.catalog.no-desc") };
 		return translate.split("§ö");
 	}
 
