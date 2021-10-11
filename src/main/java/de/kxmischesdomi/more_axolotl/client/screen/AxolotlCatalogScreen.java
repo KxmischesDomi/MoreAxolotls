@@ -34,6 +34,8 @@ import java.util.Map;
 public class AxolotlCatalogScreen extends Screen {
 
 	private static final Identifier CATALOG = new Identifier(MoreAxolotl.MOD_ID, "textures/gui/catalog_brown.png");
+	private static final int startAge = 951753697;
+
 	public final Map<AxolotlEntity.Variant, AxolotlEntity> variants;
 
 	private final int backgroundWidth = 246;
@@ -169,6 +171,14 @@ public class AxolotlCatalogScreen extends Screen {
 
 	public void renderAxolotl(int x, int y, int size, float mouseX, float mouseY, AxolotlEntity.Variant variant) {
 		AxolotlEntity axolotlEntity = variants.get(variant);
+
+		if (axolotlEntity.age == startAge) {
+			axolotlEntity.age = 0;
+			for (int i = 0; i < 230; i++) {
+				InventoryScreen.drawEntity(x, y+1000, size, mouseX, mouseY, axolotlEntity);
+			}
+		}
+
 		InventoryScreen.drawEntity(x, y, size, mouseX, mouseY, axolotlEntity);
 	}
 
@@ -270,7 +280,7 @@ public class AxolotlCatalogScreen extends Screen {
 		axolotlEntity.readCustomDataFromNbt(nbt);
 		axolotlEntity.setAiDisabled(true);
 		axolotlEntity.setOnGround(true);
-		axolotlEntity.age = 951753697;
+		axolotlEntity.age = startAge;
 
 		return axolotlEntity;
 	}

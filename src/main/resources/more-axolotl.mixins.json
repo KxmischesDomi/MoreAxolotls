@@ -10,7 +10,6 @@
 	"server.CatEntityMixin"
   ],
   "client": [
-	"client.AxolotlEntityModelMixin",
 	"client.AxolotlEntityRendererMixin",
 	"client.BakedModelManagerAccessor",
 	"client.EntityBucketItemMixin",
