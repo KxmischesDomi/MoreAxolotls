@@ -35,10 +35,12 @@ public abstract class AxolotlEntityMixin extends AnimalEntity {
 
 	@ModifyArgs(method = "createChild", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/passive/AxolotlEntity;setVariant(Lnet/minecraft/entity/passive/AxolotlEntity$Variant;)V"))
 	public void setVariant(Args args, ServerWorld world, PassiveEntity entity) {
+		if (args.get(0) != null && !((AxolotlVariantAccessor) args.get(0)).isNatural()) return;
+
 		AxolotlEntity thisEntity = getEntity();
 		Variant variant1 = thisEntity.getVariant();
 		Variant variant2 = ((AxolotlEntity) entity).getVariant();
-		if (variant1 != variant2) {
+		if (variant1 != variant2 && entity.getRandom().nextInt(10) < 4) {
 			Variant result = AxolotlBreeds.getBreed(variant1, variant2, world.getRandom());
 			if (result != null) {
 				args.set(0, result);
