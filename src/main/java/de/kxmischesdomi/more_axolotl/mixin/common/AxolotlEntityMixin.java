@@ -1,6 +1,8 @@
-package de.kxmischesdomi.more_axolotl.mixin.server;
+package de.kxmischesdomi.more_axolotl.mixin.common;
 
 import de.kxmischesdomi.more_axolotl.common.AxolotlBreeds;
+import de.kxmischesdomi.more_axolotl.common.GuiAgeable;
+import de.kxmischesdomi.more_axolotl.mixin.server.AxolotlVariantAccessor;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.AxolotlEntity;
@@ -25,7 +27,9 @@ import java.util.Random;
  * @since 1.0
  */
 @Mixin(AxolotlEntity.class)
-public abstract class AxolotlEntityMixin extends AnimalEntity {
+public abstract class AxolotlEntityMixin extends AnimalEntity implements GuiAgeable {
+
+	public int guiAge;
 
 	@Shadow public abstract void readCustomDataFromNbt(NbtCompound nbt);
 
@@ -58,6 +62,16 @@ public abstract class AxolotlEntityMixin extends AnimalEntity {
 			at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/entity/passive/AxolotlEntity$Variant;getRandomUnnatural(Ljava/util/Random;)Lnet/minecraft/entity/passive/AxolotlEntity$Variant;"))
 	public Variant createUnnaturalChild(Variant original, ServerWorld world, PassiveEntity entity) {
 		return AxolotlBreeds.getRandomBreed(world.getRandom());
+	}
+
+	@Override
+	public void setGuiAge(int guiAge) {
+		this.guiAge = guiAge;
+	}
+
+	@Override
+	public int getGuiAge() {
+		return guiAge;
 	}
 
 	public AxolotlEntity getEntity() {

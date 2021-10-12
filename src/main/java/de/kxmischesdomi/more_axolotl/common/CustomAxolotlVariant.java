@@ -20,8 +20,10 @@ public enum CustomAxolotlVariant {
 	PIEBALD("piebald", false),
 	GRAY("gray", true),
 	SHINY("shiny", false),
+	MOSAIC("mosaic", false),
 	SKELETON("skeleton", false),
 	DROWNED("drowned", false),
+	RAINBOW("rainbow", false),
 	;
 
 	private final String name;

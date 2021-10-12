@@ -33,8 +33,8 @@ import java.util.Map;
 @Environment(EnvType.CLIENT)
 public class AxolotlCatalogScreen extends Screen {
 
+	public static final int startAge = 951753697;
 	private static final Identifier CATALOG = new Identifier(MoreAxolotl.MOD_ID, "textures/gui/catalog_brown.png");
-	private static final int startAge = 951753697;
 
 	public final Map<AxolotlEntity.Variant, AxolotlEntity> variants;
 
@@ -286,8 +286,8 @@ public class AxolotlCatalogScreen extends Screen {
 	}
 
 	@Override
-	public void renderTooltip(MatrixStack matrices, Text text, int x, int y) {
-		super.renderTooltip(matrices, new LiteralText("HALLO"), x, y);
+	public boolean isPauseScreen() {
+		return false;
 	}
 
 }

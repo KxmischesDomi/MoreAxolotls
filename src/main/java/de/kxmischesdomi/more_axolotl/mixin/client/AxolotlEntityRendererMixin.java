@@ -2,6 +2,9 @@ package de.kxmischesdomi.more_axolotl.mixin.client;
 
 import de.kxmischesdomi.more_axolotl.common.AxolotlBreeds;
 import net.minecraft.client.render.entity.AxolotlEntityRenderer;
+import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.entity.MobEntityRenderer;
+import net.minecraft.client.render.entity.model.AxolotlEntityModel;
 import net.minecraft.entity.passive.AxolotlEntity;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,7 +19,11 @@ import java.util.Map;
  * @since 1.0
  */
 @Mixin(AxolotlEntityRenderer.class)
-public abstract class AxolotlEntityRendererMixin {
+public abstract class AxolotlEntityRendererMixin extends MobEntityRenderer<AxolotlEntity, AxolotlEntityModel<AxolotlEntity>> {
+
+	public AxolotlEntityRendererMixin(EntityRendererFactory.Context context, AxolotlEntityModel<AxolotlEntity> entityModel, float f) {
+		super(context, entityModel, f);
+	}
 
 	@Inject(method = "getTexture", at = @At("HEAD"), cancellable = true)
 	public void getTexture(AxolotlEntity axolotlEntity, CallbackInfoReturnable<Identifier> cir) {
