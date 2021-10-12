@@ -25,7 +25,7 @@ public abstract class LivingEntityRendererMixin <T extends LivingEntity> {
 	private void onRender(Args args, T livingEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
 
 		if (livingEntity instanceof AxolotlEntity && ((AxolotlEntity) livingEntity).getVariant() == CustomAxolotlVariant.RAINBOW.getVariant()) {
-			int age = livingEntity.age + (int) ((GuiAgeable) livingEntity).getGuiAge();
+			int age = livingEntity.age + ((GuiAgeable) livingEntity).getGuiAge();
 			int n = age / 25;
 			int o = DyeColor.values().length;
 			int p = n % o;

@@ -10,7 +10,6 @@
   ],
   "client": [
 	"client.ClientWorldMixin",
-	"client.AxolotlEntityModelMixin",
 	"client.AxolotlEntityRendererMixin",
 	"client.BakedModelManagerAccessor",
 	"client.EntityBucketItemMixin",
