@@ -1,7 +1,7 @@
 package de.kxmischesdomi.more_axolotl.mixin.client;
 
 import de.kxmischesdomi.more_axolotl.client.screen.AxolotlCatalogScreen;
-import de.kxmischesdomi.more_axolotl.common.GuiAgeable;
+import de.kxmischesdomi.more_axolotl.common.AxolotlAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.world.ClientWorld;
@@ -26,7 +26,7 @@ public abstract class ClientWorldMixin {
 		Screen currentScreen = client.currentScreen;
 		if (currentScreen instanceof AxolotlCatalogScreen catalogScreen) {
 			for (AxolotlEntity entity : catalogScreen.variants.values()) {
-				GuiAgeable ageable = (GuiAgeable) entity;
+				AxolotlAccessor ageable = (AxolotlAccessor) entity;
 				ageable.setGuiAge(ageable.getGuiAge()+1);
 			}
 		}

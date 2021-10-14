@@ -70,6 +70,7 @@ public class AxolotlBreeds {
 		return null;
 	}
 
+	// TODO: REPLACE WITH HASHSET SUPPLIER
 	public static boolean isSupportedVariant(Variant variant) {
 		int variantId = variant.ordinal();
 
