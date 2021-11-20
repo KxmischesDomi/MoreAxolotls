@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-	"layer0": "more-axolotls:item/axolotl_catalog"
+	"layer0": "more-axolotls:item/axolotl_bucket_wild"
   }
 }

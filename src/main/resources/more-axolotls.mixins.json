@@ -1,0 +1,23 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "de.kxmischesdomi.more_axolotls.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "mixins": [
+	"common.AxolotlEntityMixin",
+	"common.AxolotlVariantMixin",
+	"server.AxolotlVariantAccessor"
+  ],
+  "client": [
+	"client.ClientWorldMixin",
+	"client.AxolotlEntityRendererMixin",
+	"client.BakedModelManagerAccessor",
+	"client.EntityBucketItemMixin",
+	"client.EntityRendererMixin",
+	"client.ItemModelsMixin",
+	"client.LivingEntityRendererMixin"
+  ],
+  "injectors": {
+	"defaultRequire": 1
+  }
+}

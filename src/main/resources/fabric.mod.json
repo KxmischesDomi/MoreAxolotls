@@ -1,41 +1,49 @@
 {
-  "schemaVersion": 1,
-  "id": "more-axolotl",
-  "version": "${version}",
+	"schemaVersion": 1,
+	"id": "more-axolotls",
+	"version": "${version}",
 
-  "name": "More Axolotl",
-  "description": "This is an example description! Tell everyone what your mod is about!",
-  "authors": [
-    "KxmischesDomi"
-  ],
-  "contact": {
-    "homepage": "https://kxmischesdomi.de/",
-    "sources": ""
-  },
+	"name": "More Axolotls",
+	"description": "Adds many new realistic axolotl types",
+	"authors": [
+		"KxmischesDomi",
+		"SR VRAXX"
+	],
+	"contact": {
+		"homepage": "https://www.curseforge.com/minecraft/mc-mods/more-axolotls",
+		"sources": "https://github.com/KxmischesDomi/MoreAxolotls",
+		"issues": "https://github.com/KxmischesDomi/MoreAxolotls/issues"
+	},
 
-  "license": "CC0-1.0",
-  "icon": "assets/more-axolotl/icon.png",
+	"license": "GNU GPLv3",
+	"icon": "assets/more-axolotls/icon.png",
 
-  "environment": "*",
-  "entrypoints": {
-    "main": [
-      "de.kxmischesdomi.more_axolotl.MoreAxolotl"
-    ],
-    "client": [
-      "de.kxmischesdomi.more_axolotl.MoreAxolotlClient"
-    ]
-  },
-  "mixins": [
-    "more-axolotl.mixins.json"
-  ],
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"de.kxmischesdomi.more_axolotls.MoreAxolotls"
+		],
+		"client": [
+			"de.kxmischesdomi.more_axolotls.MoreAxolotlsClient"
+		]
+	},
+	"mixins": [
+		"more-axolotls.mixins.json"
+	],
 
-  "depends": {
-    "fabricloader": ">=0.11.3",
-    "fabric": "*",
-    "minecraft": "1.17.x",
-    "java": ">=16"
-  },
-  "suggests": {
-    "another-mod": "*"
-  }
+	"depends": {
+		"fabricloader": ">=0.11.3",
+		"fabric": "*",
+		"minecraft": "1.17.x",
+		"java": ">=16"
+	},
+
+	"custom": {
+		"modmenu": {
+			"links": {
+				"modmenu.discord": "https://discord.gg/7BSqZa9r3P"
+			}
+		}
+	}
+
 }
