@@ -221,7 +221,7 @@ public class AxolotlCatalogScreen extends Screen {
 				y += spacing;
 			}
 		} catch (Exception exception) {
-			e"§xception.printStackTrace();
+			exception.printStackTrace();
 		}
 
 	}
