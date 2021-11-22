@@ -44,10 +44,6 @@ public abstract class AbstractAxolotlFeatureRenderer extends FeatureRenderer<Axo
 				return;
 			}
 
-			if (!isBody()) {
-				matrices.scale(0.5F, 0.5F, 0.5F);
-			}
-
 			this.model.render(matrices, vertexConsumer, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
 		}
 	}
