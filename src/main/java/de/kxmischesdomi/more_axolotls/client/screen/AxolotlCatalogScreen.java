@@ -121,7 +121,7 @@ public class AxolotlCatalogScreen extends Screen {
 
 				renderAxolotlInfoText(matrices, title, pageCenterX, midY - (bookHeight / 6), 0, 1, true);
 
-				// HAS TO BE REPLACED WITH MINECRAFT SPLITTING CODE STUFF :sob:
+				// HAS TO BE REPLACED WITH MINECRAFT'S SPLITTING STUFF :sob:
 				double scale = 0.7;
 				renderAxolotlInfoText(matrices, getLinesOfMessage("gui.more-axolotls.catalog.desc." + variant.getName()), (int) ((pageCenterX - bookWidth / 5.7) / scale), (int) ((midY - bookHeight / 11.2) / scale), 0, (float) scale, 10, 145);
 
@@ -216,6 +216,7 @@ public class AxolotlCatalogScreen extends Screen {
 
 		try {
 			for (String s : text) {
+				System.out.println(s);
 				int additionalSpacing = renderAxolotlInfoText(matrices, s, x, y, color, scale, spacing, centered, 0,maxWidth);
 				y += additionalSpacing;
 				y += spacing;

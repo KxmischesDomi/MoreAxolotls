@@ -42,7 +42,7 @@ public abstract class AxolotlVariantMixin {
 			shift = At.Shift.AFTER))
 	private static void addCustomVariant(CallbackInfo ci) {
 		List<Variant> variants = new ArrayList<>(Arrays.asList(field_28350));
-		int currentId = 900;
+		int currentId = 99; // Starting at 99 to prevent issues with other mods that add axolotl variants
 		Variant last = variants.get(variants.size() - 1);
 
 		for (CustomAxolotlVariant value : CustomAxolotlVariant.values()) {

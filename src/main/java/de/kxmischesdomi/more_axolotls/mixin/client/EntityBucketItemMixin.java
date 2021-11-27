@@ -38,7 +38,6 @@ public abstract class EntityBucketItemMixin {
 				int variantId = nbtCompound.getInt("Variant");
 
 				AxolotlEntity.Variant variant = AxolotlVariantManager.getVariantById(variantId);
-				System.out.println(variant);
 				if (variant != null) {
 					String titleName = variant.getName().replace("_", " ");
 					titleName = String.valueOf(titleName.charAt(0)).toUpperCase(Locale.ROOT) + titleName.substring(1);

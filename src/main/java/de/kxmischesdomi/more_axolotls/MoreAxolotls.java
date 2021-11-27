@@ -25,8 +25,7 @@ public class MoreAxolotls implements ModInitializer {
 			factories.add((entity, random) -> new TradeOffer(new ItemStack(Items.BOOK), new ItemStack(Items.EMERALD, 3), new ItemStack(ModItems.AXOLOTL_CATALOG), 0, 1, 3, 0));
 		});
 
-		// TEMPORARLY IMPLEMENTATION OF THE OPEN MOUTH
-		// TODO: IMPROVE FEEDING IMPLEMENTATION
+		// TEMPORARILY IMPLEMENTATION OF THE OPEN MOUTH
 		// TODO: IMPLEMENT OPEN MOUTH INTO AI WHEN HUNTING
 		UseEntityCallback.EVENT.register((player, world1, hand, entity, hitResult) -> {
 
