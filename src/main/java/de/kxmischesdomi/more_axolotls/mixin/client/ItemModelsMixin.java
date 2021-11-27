@@ -45,7 +45,7 @@ public abstract class ItemModelsMixin {
 						variant = AxolotlVariantManager.getVariantById(variantId);
 					}
 
-					if (variant != null && AxolotlVariantManager.isSupportedVariant(variant.getId())) {
+					if (variant != null && MoreAxolotlsClient.VARIANT_BUCKET_MODELS.containsKey(variant)) {
 						Identifier id = MoreAxolotlsClient.VARIANT_BUCKET_MODELS.get(variant);
 						Map<Identifier, BakedModel> models = ((BakedModelManagerAccessor) getModelManager()).getModels();
 						BakedModel bakedModel = models.get(id);

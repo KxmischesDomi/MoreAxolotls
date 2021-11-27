@@ -1,5 +1,6 @@
 package de.kxmischesdomi.more_axolotls;
 
+import de.kxmischesdomi.more_axolotls.common.AxolotlVariantManager;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -25,9 +26,11 @@ public class MoreAxolotlsClient implements ClientModInitializer {
 		for (AxolotlEntity.Variant variant : AxolotlEntity.Variant.values()) {
 			if (variant.getId() == 0) continue;
 			ModelLoadingRegistry.INSTANCE.registerModelProvider((manager, out) -> {
-				Identifier identifier = new Identifier(MoreAxolotls.MOD_ID, String.format("item/axolotl_bucket_%s", variant.getName()));
-				VARIANT_BUCKET_MODELS.put(variant, identifier);
-				out.accept(identifier);
+				if (AxolotlVariantManager.isSupportedVariant(variant.getId())) {
+					Identifier identifier = new Identifier(MoreAxolotls.MOD_ID, String.format("item/axolotl_bucket_%s", variant.getName()));
+					VARIANT_BUCKET_MODELS.put(variant, identifier);
+					out.accept(identifier);
+				}
 			});
 		}
 

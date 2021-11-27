@@ -6,7 +6,9 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.ScreenTexts;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
+import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.PageTurnWidget;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.resource.language.I18n;
@@ -63,6 +65,9 @@ public class AxolotlCatalogScreen extends Screen {
 
 	@Override
 	protected void init() {
+		this.addDrawableChild(new ButtonWidget(this.width / 2 - 100, this.height / 2 + 100, 200, 20, ScreenTexts.DONE, (button) -> {
+			this.client.setScreen(null);
+		}));
 		addPageButtons();
 	}
 
@@ -216,7 +221,6 @@ public class AxolotlCatalogScreen extends Screen {
 
 		try {
 			for (String s : text) {
-				System.out.println(s);
 				int additionalSpacing = renderAxolotlInfoText(matrices, s, x, y, color, scale, spacing, centered, 0,maxWidth);
 				y += additionalSpacing;
 				y += spacing;
