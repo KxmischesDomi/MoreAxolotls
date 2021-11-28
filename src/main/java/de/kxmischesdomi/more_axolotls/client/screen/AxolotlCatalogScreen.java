@@ -31,6 +31,7 @@ import java.util.Map;
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi
  * @since 1.0
+ * Ugly code please don't look its a shame
  */
 @Environment(EnvType.CLIENT)
 public class AxolotlCatalogScreen extends Screen {
