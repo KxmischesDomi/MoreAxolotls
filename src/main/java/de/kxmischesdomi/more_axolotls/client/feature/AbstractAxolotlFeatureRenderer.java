@@ -1,6 +1,7 @@
 package de.kxmischesdomi.more_axolotls.client.feature;
 
 import de.kxmischesdomi.more_axolotls.client.RainbowRendering;
+import de.kxmischesdomi.more_axolotls.common.AxolotlVariantManager;
 import de.kxmischesdomi.more_axolotls.common.CustomAxolotlVariant;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -16,6 +17,8 @@ import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.passive.AxolotlEntity;
 import net.minecraft.util.Identifier;
+
+import java.util.Map;
 
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi
@@ -57,5 +60,19 @@ public abstract class AbstractAxolotlFeatureRenderer extends FeatureRenderer<Axo
 	}
 
 	public abstract Identifier getTexture(AxolotlEntity entity);
+
+	public static String getSkinTextureName(AxolotlEntity entity) {
+		if (entity.hasCustomName()) {
+			String name = entity.getName().asString();
+
+			for (Map.Entry<String, AxolotlEntity.Variant> entry : AxolotlVariantManager.CUSTOM_NAME_VARIANTS.get().entrySet()) {
+				if (name.equals(entry.getKey())) {
+					return entry.getValue().getName();
+				}
+			}
+		}
+
+		return entity.getVariant().getName();
+	}
 
 }

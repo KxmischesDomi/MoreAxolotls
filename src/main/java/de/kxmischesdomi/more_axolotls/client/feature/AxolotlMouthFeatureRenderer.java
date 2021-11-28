@@ -24,7 +24,7 @@ public class AxolotlMouthFeatureRenderer extends AbstractAxolotlFeatureRenderer 
 
 	@Override
 	public Identifier getTexture(AxolotlEntity entity) {
-		return new Identifier(String.format("textures/entity/axolotl/mouth/axolotl_%s_mouth.png", entity.getVariant().getName()));
+		return new Identifier(String.format("textures/entity/axolotl/mouth/axolotl_%s_mouth.png", getSkinTextureName(entity)));
 	}
 
 	@Override
