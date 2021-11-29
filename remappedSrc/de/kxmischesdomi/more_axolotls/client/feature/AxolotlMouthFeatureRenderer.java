@@ -19,7 +19,7 @@ public class AxolotlMouthFeatureRenderer extends AbstractAxolotlFeatureRenderer 
 
 	@Override
 	public boolean shouldRender(Axolotl entity) {
-		return ((entity instanceof AxolotlAccessor accessor && (accessor.getMouthOpenTicks() > 0 || entity.hasCustomName() && entity.getName().getContents().equals("pogl")) && AxolotlVariantManager.isSupportedVariant(accessor.getVariantId())));
+		return ((entity instanceof AxolotlAccessor accessor && (accessor.getMouthOpenTicks() > 0 || entity.hasCustomName() && entity.getName().asString().equals("pogl")) && AxolotlVariantManager.isSupportedVariant(accessor.getVariantId())));
 	}
 
 	@Override

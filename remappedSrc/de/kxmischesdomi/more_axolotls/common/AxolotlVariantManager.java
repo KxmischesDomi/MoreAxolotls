@@ -50,7 +50,7 @@ public class AxolotlVariantManager {
 	public static Supplier<HashSet<Variant>> RARE_BREEDS = Suppliers.memoize(() -> {
 		HashSet<Variant> variants = new HashSet<>(Arrays.asList(Variant.values()));
 		variants.addAll(Arrays.stream(CustomAxolotlVariant.values()).map(CustomAxolotlVariant::getVariant).collect(Collectors.toList()));
-		variants.removeIf(variant -> ((AxolotlVariantAccessor)((Object) variant)).isCommon());
+		variants.removeIf(variant -> ((AxolotlVariantAccessor)((Object) variant)).isNatural());
 		for (Variant value : CUSTOM_NAME_VARIANTS.get().values()) {
 			variants.remove(value);
 		}

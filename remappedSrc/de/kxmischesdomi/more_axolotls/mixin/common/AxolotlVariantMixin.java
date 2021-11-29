@@ -1,8 +1,6 @@
 package de.kxmischesdomi.more_axolotls.mixin.common;
 
 import de.kxmischesdomi.more_axolotls.common.CustomAxolotlVariant;
-import net.minecraft.world.entity.animal.axolotl.Axolotl;
-import net.minecraft.world.entity.animal.axolotl.Axolotl.Variant;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,6 +14,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import net.minecraft.world.entity.animal.axolotl.Axolotl;
+import net.minecraft.world.entity.animal.axolotl.Axolotl.Variant;
 
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi
@@ -31,15 +31,17 @@ public abstract class AxolotlVariantMixin {
 	}
 
 	@SuppressWarnings("ShadowTarget")
-	@Shadow @Mutable @Final private static Variant[] $VALUES;
+	@Shadow
+	@Mutable
+	private static @Final Variant[] field_28350;
 
 	@SuppressWarnings("UnresolvedMixinReference")
 	@Inject(method = "<clinit>", at = @At(value = "FIELD",
 			opcode = Opcodes.PUTSTATIC,
-			target = "Lnet/minecraft/world/entity/animal/axolotl/Axolotl$Variant;$VALUES:[Lnet/minecraft/world/entity/animal/axolotl/Axolotl$Variant;",
+			target = "Lnet/minecraft/entity/passive/AxolotlEntity$Variant;field_28350:[Lnet/minecraft/entity/passive/AxolotlEntity$Variant;",
 			shift = At.Shift.AFTER))
 	private static void addCustomVariant(CallbackInfo ci) {
-		List<Variant> variants = new ArrayList<>(Arrays.asList($VALUES));
+		List<Variant> variants = new ArrayList<>(Arrays.asList(field_28350));
 		int currentId = 99; // Starting at 99 to prevent issues with other mods that add axolotl variants
 		Variant last = variants.get(variants.size() - 1);
 
@@ -50,7 +52,7 @@ public abstract class AxolotlVariantMixin {
 			currentId++;
 		}
 
-		$VALUES = variants.toArray(new Axolotl.Variant[0]);
+		field_28350 = variants.toArray(new Axolotl.Variant[0]);
 	}
 
 }
