@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(Axolotl.Variant.class)
 public interface AxolotlVariantAccessor {
 
-	@Accessor("common")
-	boolean isCommon();
+	@Accessor("natural")
+	boolean isNatural();
 
 }

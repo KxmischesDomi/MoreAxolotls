@@ -3,26 +3,6 @@ package de.kxmischesdomi.more_axolotls.mixin.common;
 import de.kxmischesdomi.more_axolotls.common.AxolotlAccessor;
 import de.kxmischesdomi.more_axolotls.common.AxolotlVariantManager;
 import de.kxmischesdomi.more_axolotls.mixin.server.AxolotlVariantAccessor;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.AxolotlEntity;
-import net.minecraft.entity.passive.AxolotlEntity.Variant;
-import net.minecraft.entity.passive.PassiveEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -33,17 +13,37 @@ import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 import java.util.Random;
 import java.util.UUID;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.axolotl.Axolotl;
+import net.minecraft.world.entity.animal.axolotl.Axolotl.Variant;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi
  * @since 1.0
  */
-@Mixin(AxolotlEntity.class)
-public abstract class AxolotlEntityMixin extends AnimalEntity implements AxolotlAccessor {
+@Mixin(Axolotl.class)
+public abstract class AxolotlEntityMixin extends Animal implements AxolotlAccessor {
 
-	@Shadow @Final private static TrackedData<Integer> VARIANT;
+	@Shadow @Final private static EntityDataAccessor<Integer> VARIANT;
 
-	@Shadow public abstract ActionResult interactMob(PlayerEntity player, Hand hand);
+	@Shadow public abstract InteractionResult mobInteract(Player player, InteractionHand hand);
 
 	@Shadow public abstract void setFromBucket(boolean fromBucket);
 
@@ -52,27 +52,27 @@ public abstract class AxolotlEntityMixin extends AnimalEntity implements Axolotl
 	@Shadow public abstract Variant getVariant();
 
 	private static final UUID AXOLOTL_ARMOR_BONUS_ID = UUID.fromString("0b66fd1e-2b86-11ec-8d3d-0242ac130003");
-	private static final TrackedData<Float> LEAF_DURABILITY;
-	private static final TrackedData<Boolean> HAS_LEAF;
+	private static final EntityDataAccessor<Float> LEAF_DURABILITY;
+	private static final EntityDataAccessor<Boolean> HAS_LEAF;
 	public int guiAge = 0;
 	public int mouthOpenTicks = 0;
 
-	public AxolotlEntityMixin(EntityType<? extends AnimalEntity> entityType, World world) {
+	public AxolotlEntityMixin(EntityType<? extends Animal> entityType, Level world) {
 		super(entityType, world);
 	}
 
 	@Inject(method = "getVariant", at = @At("HEAD"), cancellable = true)
 	public void getVariant(CallbackInfoReturnable<Variant> cir) {
-		cir.setReturnValue(AxolotlVariantManager.getVariantById(dataTracker.get(VARIANT)));
+		cir.setReturnValue(AxolotlVariantManager.getVariantById(entityData.get(VARIANT)));
 	}
 
 	@ModifyArgs(method = "createChild", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/passive/AxolotlEntity;setVariant(Lnet/minecraft/entity/passive/AxolotlEntity$Variant;)V"))
-	public void createChildVariant(Args args, ServerWorld world, PassiveEntity entity) {
+	public void createChildVariant(Args args, ServerLevel world, AgeableMob entity) {
 		if (args.get(0) != null && !((AxolotlVariantAccessor) args.get(0)).isNatural()) return;
 
-		AxolotlEntity thisEntity = getEntity();
+		Axolotl thisEntity = getEntity();
 		Variant variant1 = thisEntity.getVariant();
-		Variant variant2 = ((AxolotlEntity) entity).getVariant();
+		Variant variant2 = ((Axolotl) entity).getVariant();
 		if (variant1 != variant2 && entity.getRandom().nextInt(10) < 4) {
 			Variant result = AxolotlVariantManager.getBreed(variant1, variant2, world.getRandom());
 			if (result != null) {
@@ -82,7 +82,7 @@ public abstract class AxolotlEntityMixin extends AnimalEntity implements Axolotl
 	}
 
 	@ModifyVariable(method = "createChild", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/entity/passive/AxolotlEntity$Variant;getRandomUnnatural(Ljava/util/Random;)Lnet/minecraft/entity/passive/AxolotlEntity$Variant;"))
-	public Variant createUnnaturalChild(Variant original, ServerWorld world, PassiveEntity entity) {
+	public Variant createUnnaturalChild(Variant original, ServerLevel world, AgeableMob entity) {
 		return AxolotlVariantManager.getRandomBreed(world.getRandom());
 	}
 
@@ -92,62 +92,62 @@ public abstract class AxolotlEntityMixin extends AnimalEntity implements Axolotl
 	}
 
 	@Inject(method = "interactMob", at = @At("HEAD"), cancellable = true)
-	public void interactMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
+	public void interactMob(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
 
-		ItemStack stackInHand = player.getStackInHand(hand);
-		if (stackInHand.isOf(Items.BIG_DRIPLEAF) && !hasLeaf()) {
+		ItemStack stackInHand = player.getItemInHand(hand);
+		if (stackInHand.is(Items.BIG_DRIPLEAF) && !hasLeaf()) {
 			setLeaf(true);
 			if (!player.isCreative()) {
-				stackInHand.decrement(1);
+				stackInHand.shrink(1);
 			}
-			cir.setReturnValue(ActionResult.SUCCESS);
-		} else if (stackInHand.isOf(Items.BONE_MEAL) && hasLeaf() && getLeafDurability() <= 10) {
+			cir.setReturnValue(InteractionResult.SUCCESS);
+		} else if (stackInHand.is(Items.BONE_MEAL) && hasLeaf() && getLeafDurability() <= 10) {
 			setLeafDurability(getLeafDurability() + 5);
 			if (!player.isCreative()) {
-				stackInHand.decrement(1);
+				stackInHand.shrink(1);
 			}
-			cir.setReturnValue(ActionResult.SUCCESS);
+			cir.setReturnValue(InteractionResult.SUCCESS);
 		}
 
 	}
 
 	@Inject(method = "initDataTracker", at = @At("TAIL"))
 	public void initDataTracker(CallbackInfo ci) {
-		this.dataTracker.startTracking(HAS_LEAF, false);
-		this.dataTracker.startTracking(LEAF_DURABILITY, 0f);
+		this.entityData.define(HAS_LEAF, false);
+		this.entityData.define(LEAF_DURABILITY, 0f);
 	}
 
 	@Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
-	public void writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
-		nbt.putBoolean("HasLeaf", dataTracker.get(HAS_LEAF));
-		nbt.putFloat("LeafDurability", dataTracker.get(LEAF_DURABILITY));
+	public void writeCustomDataToNbt(CompoundTag nbt, CallbackInfo ci) {
+		nbt.putBoolean("HasLeaf", entityData.get(HAS_LEAF));
+		nbt.putFloat("LeafDurability", entityData.get(LEAF_DURABILITY));
 	}
 
 	@Inject(method = "readCustomDataFromNbt", at = @At("HEAD"), cancellable = true)
-	public void readCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
-		super.readCustomDataFromNbt(nbt);
+	public void readCustomDataFromNbt(CompoundTag nbt, CallbackInfo ci) {
+		super.readAdditionalSaveData(nbt);
 		this.setVariant(AxolotlVariantManager.getVariantById(nbt.getInt("Variant")));
 		this.setFromBucket(nbt.getBoolean("FromBucket"));
-		dataTracker.set(HAS_LEAF, nbt.getBoolean("HasLeaf"));
-		dataTracker.set(LEAF_DURABILITY, nbt.getFloat("LeafDurability"));
+		entityData.set(HAS_LEAF, nbt.getBoolean("HasLeaf"));
+		entityData.set(LEAF_DURABILITY, nbt.getFloat("LeafDurability"));
 		ci.cancel();
 	}
 
 	@Inject(method = "baseTick", at = @At("HEAD"))
 	public void baseTick(CallbackInfo ci) {
-		if (world.isClient && mouthOpenTicks > 0) {
+		if (level.isClientSide && mouthOpenTicks > 0) {
 			mouthOpenTicks--;
 		}
 	}
 
 	@Override
 	public int getVariantId() {
-		return dataTracker.get(VARIANT);
+		return entityData.get(VARIANT);
 	}
 
 	@Override
 	public void setLeaf(boolean leaf) {
-		dataTracker.set(HAS_LEAF, leaf);
+		entityData.set(HAS_LEAF, leaf);
 
 		if (leaf) {
 			setLeafDurability(15);
@@ -155,40 +155,40 @@ public abstract class AxolotlEntityMixin extends AnimalEntity implements Axolotl
 			setLeafDurability(0);
 		}
 
-		if (!world.isClient) {
-			this.getAttributeInstance(EntityAttributes.GENERIC_ARMOR).removeModifier(AXOLOTL_ARMOR_BONUS_ID);
+		if (!level.isClientSide) {
+			this.getAttribute(Attributes.ARMOR).removeModifier(AXOLOTL_ARMOR_BONUS_ID);
 
 			if (hasLeaf()) {
-				getAttributeInstance(EntityAttributes.GENERIC_ARMOR).addTemporaryModifier(new EntityAttributeModifier(AXOLOTL_ARMOR_BONUS_ID, "Axolotl armor bonus", 15, EntityAttributeModifier.Operation.ADDITION));
+				getAttribute(Attributes.ARMOR).addTransientModifier(new AttributeModifier(AXOLOTL_ARMOR_BONUS_ID, "Axolotl armor bonus", 15, AttributeModifier.Operation.ADDITION));
 			}
 		}
 
 	}
 
 	@Override
-	protected void damageArmor(DamageSource source, float amount) {
+	protected void hurtArmor(DamageSource source, float amount) {
 		setLeafDurability(getLeafDurability() - amount);
-		super.damageArmor(source, amount);
+		super.hurtArmor(source, amount);
 	}
 
 	@Override
 	public boolean hasLeaf() {
-		return dataTracker.get(HAS_LEAF);
+		return entityData.get(HAS_LEAF);
 	}
 
 	@Override
 	public float getLeafDurability() {
-		return dataTracker.get(LEAF_DURABILITY);
+		return entityData.get(LEAF_DURABILITY);
 	}
 
 	@Override
 	public void setLeafDurability(float damage) {
-		dataTracker.set(LEAF_DURABILITY, damage);
+		entityData.set(LEAF_DURABILITY, damage);
 
 		if (hasLeaf() && getLeafDurability() < 0) {
 			setLeaf(false);
 			setLeafDurability(0);
-			playSound(SoundEvents.ENTITY_ITEM_BREAK, 0.5F, 1F);
+			playSound(SoundEvents.ITEM_BREAK, 0.5F, 1F);
 		}
 
 	}
@@ -213,13 +213,13 @@ public abstract class AxolotlEntityMixin extends AnimalEntity implements Axolotl
 		return guiAge;
 	}
 
-	public AxolotlEntity getEntity() {
-		return (AxolotlEntity) ((Object) this);
+	public Axolotl getEntity() {
+		return (Axolotl) ((Object) this);
 	}
 
 	static {
-		HAS_LEAF = DataTracker.registerData(AxolotlEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-		LEAF_DURABILITY = DataTracker.registerData(AxolotlEntity.class, TrackedDataHandlerRegistry.FLOAT);
+		HAS_LEAF = SynchedEntityData.defineId(Axolotl.class, EntityDataSerializers.BOOLEAN);
+		LEAF_DURABILITY = SynchedEntityData.defineId(Axolotl.class, EntityDataSerializers.FLOAT);
 	}
 
 }

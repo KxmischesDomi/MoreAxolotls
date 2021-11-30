@@ -40,6 +40,8 @@ public class AxolotlCatalogScreen extends Screen {
 
 	public final Map<Axolotl.Variant, Axolotl> variants;
 
+	private final int bookWidth = 246;
+	private final int bookHeight = 182;
 	private final int pages;
 	private final Level world;
 
@@ -74,22 +76,22 @@ public class AxolotlCatalogScreen extends Screen {
 		this.renderBackground(matrices);
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		RenderSystem.setShaderTexture(0, CATALOG);
+		RenderSystem.setShaderTexture(0, new ResourceLocation(MoreAxolotls.MOD_ID, "textures/gui/catalog.png"));
 
 		final int uiWidth = 424;
 		final int uiHeight = 182;
 
-		final int bookWidth = 284;
-		final int bookHeight = 180;
+		int bookWidth = 284;
+		int bookHeight = 180;
 
-		final int x = (this.width - uiWidth) / 2;
-		final int y = (this.height - uiHeight) / 2;
+		int x = (this.width - uiWidth) / 2;
+		int y = (this.height - uiHeight) / 2;
 
-		final int midX = this.width / 2;
-		final int midY = this.height / 2;
+		int midX = this.width / 2;
+		int midY = this.height / 2;
 
-		final int frameWidth = 105;
-		final int frameHeight = 105;
+		int frameWidth = 105;
+		int frameHeight = 105;
 
 		int xOffset = - bookWidth / 4;
 
