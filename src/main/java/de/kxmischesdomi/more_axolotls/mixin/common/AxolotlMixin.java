@@ -16,7 +16,9 @@ import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.animal.axolotl.Axolotl;
 import net.minecraft.world.entity.animal.axolotl.Axolotl.Variant;
 import net.minecraft.world.entity.player.Player;
@@ -29,7 +31,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArgs;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
@@ -133,6 +134,31 @@ public abstract class AxolotlMixin extends Animal implements AxolotlAccessor {
 		this.setFromBucket(nbt.getBoolean("FromBucket"));
 		entityData.set(HAS_LEAF, nbt.getBoolean("HasLeaf"));
 		entityData.set(LEAF_DURABILITY, nbt.getFloat("LeafDurability"));
+		ci.cancel();
+	}
+
+	@Inject(method = "saveToBucketTag", at = @At("HEAD"))
+	public void saveToBucketTag(ItemStack itemStack, CallbackInfo ci) {
+		CompoundTag compoundTag = itemStack.getOrCreateTag();
+		compoundTag.putBoolean("HasLeaf", entityData.get(HAS_LEAF));
+		compoundTag.putFloat("LeafDurability", entityData.get(LEAF_DURABILITY));
+	}
+
+	@Inject(method = "loadFromBucketTag", at = @At("HEAD"), cancellable = true)
+	public void loadFromBucketTag(CompoundTag nbt, CallbackInfo ci) {
+		Bucketable.loadDefaultDataFromBucketTag(this, nbt);
+		this.setVariant(AxolotlVariantManager.getVariantById(nbt.getInt("Variant")));
+		entityData.set(HAS_LEAF, nbt.getBoolean("HasLeaf"));
+		entityData.set(LEAF_DURABILITY, nbt.getFloat("LeafDurability"));
+
+		if (nbt.contains("Age")) {
+			this.setAge(nbt.getInt("Age"));
+		}
+
+		if (nbt.contains("HuntingCooldown")) {
+			this.getBrain().setMemoryWithExpiry(MemoryModuleType.HAS_HUNTING_COOLDOWN, true, nbt.getLong("HuntingCooldown"));
+		}
+
 		ci.cancel();
 	}
 
