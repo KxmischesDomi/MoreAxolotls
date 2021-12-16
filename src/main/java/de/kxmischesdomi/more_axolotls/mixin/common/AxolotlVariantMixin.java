@@ -1,5 +1,6 @@
 package de.kxmischesdomi.more_axolotls.mixin.common;
 
+import de.kxmischesdomi.more_axolotls.common.AxolotlVariantManager;
 import de.kxmischesdomi.more_axolotls.common.CustomAxolotlVariant;
 import net.minecraft.world.entity.animal.axolotl.Axolotl;
 import net.minecraft.world.entity.animal.axolotl.Axolotl.Variant;
@@ -12,10 +13,12 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi
@@ -51,6 +54,11 @@ public abstract class AxolotlVariantMixin {
 		}
 
 		$VALUES = variants.toArray(new Axolotl.Variant[0]);
+	}
+
+	@Inject(method = "getRareSpawnVariant", at = @At("HEAD"), cancellable = true)
+	private static void getBreedOffspring(Random random, CallbackInfoReturnable<Variant> cir) {
+		cir.setReturnValue(AxolotlVariantManager.getRandomBreed(random));
 	}
 
 }

@@ -85,11 +85,6 @@ public abstract class AxolotlMixin extends Animal implements AxolotlAccessor {
 		}
 	}
 
-	@ModifyVariable(method = "getBreedOffspring", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/world/entity/animal/axolotl/Axolotl$Variant;getRareSpawnVariant(Ljava/util/Random;)Lnet/minecraft/world/entity/animal/axolotl/Axolotl$Variant;"))
-	public Variant getBreedOffspring(Variant original, ServerLevel world, AgeableMob entity) {
-		return AxolotlVariantManager.getRandomBreed(world.getRandom());
-	}
-
 	@Inject(method = "useRareVariant", at = @At("HEAD"), cancellable = true)
 	private static void useRareVariant(Random random, CallbackInfoReturnable<Boolean> cir) {
 		cir.setReturnValue(random.nextInt(1200) < AxolotlVariantManager.RARE_BREEDS.get().size());
