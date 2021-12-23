@@ -31,16 +31,16 @@ public class MoreAxolotlsClient implements ClientModInitializer {
 			Minecraft.getInstance().setScreen(screen);
 		};
 
-		for (Axolotl.Variant variant : Axolotl.Variant.values()) {
-			if (variant.getId() == 0) continue;
-			ModelLoadingRegistry.INSTANCE.registerModelProvider((manager, out) -> {
+		ModelLoadingRegistry.INSTANCE.registerModelProvider((manager, out) -> {
+			for (Axolotl.Variant variant : Axolotl.Variant.values()) {
+				if (variant.getId() == 0) continue;
 				if (AxolotlVariantManager.isSupportedVariant(variant.getId())) {
 					ResourceLocation identifier = new ResourceLocation(MoreAxolotls.MOD_ID, String.format("item/axolotl_bucket_%s", variant.getName()));
 					VARIANT_BUCKET_MODELS.put(variant, identifier);
 					out.accept(identifier);
 				}
-			});
-		}
+			}
+		});
 
 	}
 
