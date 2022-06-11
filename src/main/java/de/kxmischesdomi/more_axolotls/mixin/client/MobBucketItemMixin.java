@@ -3,7 +3,6 @@ package de.kxmischesdomi.more_axolotls.mixin.client;
 import de.kxmischesdomi.more_axolotls.common.AxolotlVariantManager;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.axolotl.Axolotl;
 import net.minecraft.world.item.ItemStack;
@@ -41,7 +40,7 @@ public abstract class MobBucketItemMixin {
 				if (variant != null) {
 					String titleName = variant.getName().replace("_", " ");
 					titleName = String.valueOf(titleName.charAt(0)).toUpperCase(Locale.ROOT) + titleName.substring(1);
-					Component title = new TextComponent("§7§o" + titleName);
+					Component title = Component.literal("§7§o" + titleName);
 					tooltip.add(title);
 				}
 

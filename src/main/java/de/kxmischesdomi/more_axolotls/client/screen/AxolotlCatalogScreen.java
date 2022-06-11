@@ -16,13 +16,13 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.axolotl.Axolotl;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -120,7 +120,7 @@ public class AxolotlCatalogScreen extends Screen {
 				// INFO TEXTS
 				String titleName = variant.getName().replace("_", " ");
 				titleName = String.valueOf(titleName.charAt(0)).toUpperCase(Locale.ROOT) + titleName.substring(1);
-				Component title = new TextComponent(titleName);
+				Component title = Component.literal(titleName);
 
 				renderAxolotlInfoText(matrices, title, pageCenterX, midY - (bookHeight / 6), 0, 1, true);
 
@@ -141,7 +141,7 @@ public class AxolotlCatalogScreen extends Screen {
 		int x = (this.width) / 2;
 		int y = (this.height) / 2;
 
-		TextComponent rightPageIndicator = new TextComponent(id + "");
+		Component rightPageIndicator = Component.literal(String.valueOf(id));
 		this.font.draw(matrices, rightPageIndicator, right ? x - font.width(rightPageIndicator) + 122 : x - 122, y - 78, 0);
 	}
 
@@ -264,7 +264,7 @@ public class AxolotlCatalogScreen extends Screen {
 			}
 		}
 
-		renderAxolotlInfoText(matrices, new TextComponent(text), x, y, color, scale, centered);
+		renderAxolotlInfoText(matrices, Component.literal(text), x, y, color, scale, centered);
 		return currentSpacing + additionalLines * spacing;
 	}
 

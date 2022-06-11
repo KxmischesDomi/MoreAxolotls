@@ -9,6 +9,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -35,7 +36,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
-import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -86,7 +86,7 @@ public abstract class AxolotlMixin extends Animal implements AxolotlAccessor {
 	}
 
 	@Inject(method = "useRareVariant", at = @At("HEAD"), cancellable = true)
-	private static void useRareVariant(Random random, CallbackInfoReturnable<Boolean> cir) {
+	private static void useRareVariant(RandomSource random, CallbackInfoReturnable<Boolean> cir) {
 		cir.setReturnValue(random.nextInt(1200) < AxolotlVariantManager.RARE_BREEDS.get().size());
 	}
 

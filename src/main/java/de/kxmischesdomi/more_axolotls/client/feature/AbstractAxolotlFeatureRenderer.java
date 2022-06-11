@@ -17,6 +17,7 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.animal.axolotl.Axolotl;
+
 import java.util.Map;
 
 /**
@@ -62,7 +63,7 @@ public abstract class AbstractAxolotlFeatureRenderer extends RenderLayer<Axolotl
 
 	public static String getSkinTextureName(Axolotl entity) {
 		if (entity.hasCustomName()) {
-			String name = entity.getName().getContents();
+			String name = entity.getName().getString();
 
 			for (Map.Entry<String, Axolotl.Variant> entry : AxolotlVariantManager.CUSTOM_NAME_VARIANTS.get().entrySet()) {
 				if (name.equals(entry.getKey())) {

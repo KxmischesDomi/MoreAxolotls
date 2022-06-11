@@ -4,10 +4,12 @@ import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import de.kxmischesdomi.more_axolotls.mixin.server.AxolotlVariantAccessor;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.animal.axolotl.Axolotl.Variant;
+
 import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
-import net.minecraft.world.entity.animal.axolotl.Axolotl.Variant;
 
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi
@@ -62,12 +64,12 @@ public class AxolotlVariantManager {
 		return variants;
 	});
 
-	public static Variant getRandomBreed(Random random) {
+	public static Variant getRandomBreed(RandomSource random) {
 		Variant[] variants = RARE_BREEDS.get().toArray(new Variant[0]);
 		return variants[random.nextInt(variants.length)];
 	}
 
-	public static Variant getBreed(Variant parent1, Variant parent2, Random random) {
+	public static Variant getBreed(Variant parent1, Variant parent2, RandomSource random) {
 		for (Map.Entry<Variant[], Variant[]> entry : BREEDS.get().entrySet()) {
 			List<Variant> variants = Arrays.asList(entry.getKey());
 			if (variants.contains(parent1) && variants.contains(parent2)) {
