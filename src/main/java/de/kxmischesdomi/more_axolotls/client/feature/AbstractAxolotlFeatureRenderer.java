@@ -66,7 +66,7 @@ public abstract class AbstractAxolotlFeatureRenderer extends RenderLayer<Axolotl
 			String name = entity.getName().getString();
 
 			for (Map.Entry<String, Axolotl.Variant> entry : AxolotlVariantManager.CUSTOM_NAME_VARIANTS.get().entrySet()) {
-				if (name.equals(entry.getKey())) {
+				if (name.equalsIgnoreCase(entry.getKey())) {
 					return entry.getValue().getName();
 				}
 			}

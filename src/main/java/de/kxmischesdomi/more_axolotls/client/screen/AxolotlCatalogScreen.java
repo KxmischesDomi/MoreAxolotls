@@ -3,6 +3,7 @@ package de.kxmischesdomi.more_axolotls.client.screen;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import de.kxmischesdomi.more_axolotls.MoreAxolotls;
+import de.kxmischesdomi.more_axolotls.common.AxolotlVariantManager;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
@@ -118,9 +119,14 @@ public class AxolotlCatalogScreen extends Screen {
 				client.getItemRenderer().renderAndDecorateFakeItem(itemStack, (int) (midX + xOffset + (frameWidth / 2.9)), frameCenterY - (frameHeight / 20));
 
 				// INFO TEXTS
-				String titleName = variant.getName().replace("_", " ");
-				titleName = String.valueOf(titleName.charAt(0)).toUpperCase(Locale.ROOT) + titleName.substring(1);
-				Component title = Component.literal(titleName);
+				Component title;
+				if (AxolotlVariantManager.isSupportedVariant(variantId)) {
+					title = Component.translatable("gui.more-axolotls.catalog.name." + variant.getName());
+				} else {
+					String name = variant.getName().replace("_", "");
+					name = String.valueOf(name.charAt(0)).toUpperCase(Locale.ROOT) + name.substring(1);
+					title = Component.literal(name);
+				}
 
 				renderAxolotlInfoText(matrices, title, pageCenterX, midY - (bookHeight / 6), 0, 1, true);
 
