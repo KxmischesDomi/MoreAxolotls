@@ -7,6 +7,7 @@ import de.kxmischesdomi.more_axolotls.common.AxolotlVariantManager;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.chat.ClientChatPreview;
 import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
@@ -48,6 +49,8 @@ public class AxolotlCatalogScreen extends Screen {
 
 	private PageButton nextPageButton;
 	private PageButton previousPageButton;
+
+	private int hoveredSummonButton = -1;
 
 	public AxolotlCatalogScreen(Level world) {
 		super(NarratorChatListener.NO_TITLE);
@@ -97,10 +100,14 @@ public class AxolotlCatalogScreen extends Screen {
 		// START RENDERING
 		blit(matrices, x, y, 0, 0, uiWidth, uiHeight, uiWidth, uiHeight);
 
+		hoveredSummonButton = -1;
+
 		for (int i = 0; i < 2; i++) {
 			int variantOrdinal = i + page * 2;
 			int pageCenterX = midX + xOffset;
 			int frameCenterY = (int) (midY - bookHeight / 5.2);
+
+			Minecraft client = Minecraft.getInstance();
 
 			if (Axolotl.Variant.values().length > variantOrdinal) {
 				Axolotl.Variant variant = Axolotl.Variant.values()[variantOrdinal];
@@ -111,12 +118,24 @@ public class AxolotlCatalogScreen extends Screen {
 				renderAxolotl(pageCenterX - size / 6, frameCenterY, size, -60, -40, variant);
 
 				// BUCKET ITEM
-				Minecraft client = Minecraft.getInstance();
-				ItemStack itemStack = Items.AXOLOTL_BUCKET.getDefaultInstance();
+				ItemStack bucketStack = Items.AXOLOTL_BUCKET.getDefaultInstance();
 				CompoundTag nbt = new CompoundTag();
 				nbt.putInt("Variant", variantId);
-				itemStack.setTag(nbt);
-				client.getItemRenderer().renderAndDecorateFakeItem(itemStack, (int) (midX + xOffset + (frameWidth / 2.9)), frameCenterY - (frameHeight / 20));
+				bucketStack.setTag(nbt);
+				client.getItemRenderer().renderAndDecorateFakeItem(bucketStack, (int) (midX + xOffset + (frameWidth / 2.9)), frameCenterY - (frameHeight / 20));
+
+				// COMMAND ITEM
+				if (client.player.isCreative()) {
+					ItemStack commandStack = Items.COMMAND_BLOCK.getDefaultInstance();
+					client.getItemRenderer().renderAndDecorateFakeItem(commandStack, (int) (midX + xOffset + (frameWidth / 2.9)), frameCenterY - (frameHeight / 5));
+
+					// Check if mouseX and mouseY hover over the command item
+					if (mouseX > (int) (midX + xOffset + (frameWidth / 2.9)) && mouseX < (int) (midX + xOffset + (frameWidth / 2.9)) + 16 && mouseY > frameCenterY - (frameHeight / 5) && mouseY < frameCenterY - (frameHeight / 5) + 16) {
+						renderTooltip(matrices, Component.literal("Summon"), mouseX, mouseY);
+						hoveredSummonButton = variantId;
+					}
+				}
+
 
 				// INFO TEXTS
 				Component title;
@@ -163,6 +182,18 @@ public class AxolotlCatalogScreen extends Screen {
 		}, true));
 
 		updatePageButtons();
+	}
+
+	@Override
+	public boolean mouseClicked(double d, double e, int i) {
+		if (hoveredSummonButton != -1) {
+			ClientChatPreview preview = new ClientChatPreview(Minecraft.getInstance());
+			String command = "summon minecraft:axolotl ~ ~ ~ {\"Variant\":" + hoveredSummonButton + "}";
+			Minecraft.getInstance().gui.getChat().addRecentChat(command);
+			Component component = preview.pull(command);
+			Minecraft.getInstance().player.command(command, component);
+		}
+		return super.mouseClicked(d, e, i);
 	}
 
 	public void updatePageButtons() {
