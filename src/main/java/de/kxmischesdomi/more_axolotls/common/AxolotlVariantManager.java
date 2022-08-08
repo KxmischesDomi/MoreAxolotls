@@ -29,7 +29,7 @@ public class AxolotlVariantManager {
 				.put(new Variant[]{Variant.GOLD, CustomAxolotlVariant.BLACK.getVariant()}, new Variant[]{CustomAxolotlVariant.ENIGMA.getVariant()})
 				.put(new Variant[]{Variant.LUCY, Variant.WILD}, new Variant[]{CustomAxolotlVariant.CHIMERA.getVariant()})
 				.put(new Variant[]{CustomAxolotlVariant.ALBINO.getVariant(), CustomAxolotlVariant.BLACK.getVariant()}, new Variant[]{CustomAxolotlVariant.FIREFLY.getVariant(), CustomAxolotlVariant.PIEBALD.getVariant(), CustomAxolotlVariant.FIREFLY_INVERTED.getVariant()})
-				.put(new Variant[]{CustomAxolotlVariant.LAPIS.getVariant(), Variant.LUCY}, new Variant[]{CustomAxolotlVariant.MOSAIC.getVariant()})
+				.put(new Variant[]{CustomAxolotlVariant.LAPIS.getVariant(), Variant.LUCY}, new Variant[]{CustomAxolotlVariant.MOSAIC_WILD.getVariant(), CustomAxolotlVariant.MOSAIC_BLACK.getVariant()})
 				.build();
 	});
 
@@ -86,15 +86,12 @@ public class AxolotlVariantManager {
 	public static boolean isSupportedVariant(int id) {
 
 		if (id > 4) {
-			boolean custom = false;
 			for (CustomAxolotlVariant value : CustomAxolotlVariant.values()) {
 				if (value.getVariant().getId() == id) {
-					custom = true;
-					break;
+					return true;
 				}
 			}
-
-			return custom;
+			return false;
 		}
 
 		return true;
