@@ -25,6 +25,7 @@ public enum CustomAxolotlVariant {
 	SKELETON("skeleton", 14, false),
 	DROWNED("drowned", 15, false),
 	RAINBOW("rainbow", 16, false),
+	SCULK("sculk", 18, false),
 	;
 
 	private final String name;
