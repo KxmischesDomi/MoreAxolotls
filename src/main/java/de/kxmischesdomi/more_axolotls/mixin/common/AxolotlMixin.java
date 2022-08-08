@@ -164,6 +164,13 @@ public abstract class AxolotlMixin extends Animal implements AxolotlAccessor {
 		}
 	}
 
+	@Inject(method = "usePlayerItem", at = @At("HEAD"), cancellable = true)
+	public void usePlayerItem(Player player, InteractionHand interactionHand, ItemStack itemStack, CallbackInfo ci) {
+		if (itemStack.is(Items.TROPICAL_FISH_BUCKET) && player.getAbilities().instabuild) {
+			ci.cancel();
+		}
+	}
+
 	@Override
 	public int getVariantId() {
 		return entityData.get(DATA_VARIANT);
