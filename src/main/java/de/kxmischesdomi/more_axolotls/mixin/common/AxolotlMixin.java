@@ -2,7 +2,9 @@ package de.kxmischesdomi.more_axolotls.mixin.common;
 
 import de.kxmischesdomi.more_axolotls.common.AxolotlAccessor;
 import de.kxmischesdomi.more_axolotls.common.AxolotlVariantManager;
+import de.kxmischesdomi.more_axolotls.common.CustomAxolotlVariant;
 import de.kxmischesdomi.more_axolotls.mixin.server.AxolotlVariantAccessor;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -15,6 +17,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
@@ -54,6 +57,8 @@ public abstract class AxolotlMixin extends Animal implements AxolotlAccessor {
 	@Shadow protected abstract void setVariant(Variant variant);
 
 	@Shadow public abstract Variant getVariant();
+
+	@Shadow public abstract MobType getMobType();
 
 	private static final UUID AXOLOTL_ARMOR_BONUS_ID = UUID.fromString("0b66fd1e-2b86-11ec-8d3d-0242ac130003");
 	private static final EntityDataAccessor<Float> LEAF_DURABILITY;
@@ -161,6 +166,11 @@ public abstract class AxolotlMixin extends Animal implements AxolotlAccessor {
 	public void baseTick(CallbackInfo ci) {
 		if (level.isClientSide && mouthOpenTicks > 0) {
 			mouthOpenTicks--;
+		}
+		if (getVariant() == CustomAxolotlVariant.GLOW.getVariant()) {
+			if (random.nextInt(7) == 0) {
+				this.level.addParticle(ParticleTypes.GLOW, this.getRandomX(0.6), this.getRandomY(), this.getRandomZ(0.6), 0.0, 0.0, 0.0);
+			}
 		}
 	}
 
