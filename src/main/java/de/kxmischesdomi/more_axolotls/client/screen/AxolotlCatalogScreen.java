@@ -6,13 +6,13 @@ import de.kxmischesdomi.more_axolotls.MoreAxolotls;
 import de.kxmischesdomi.more_axolotls.common.AxolotlVariantManager;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.SharedConstants;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.chat.ClientChatPreview;
-import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.gui.screens.inventory.PageButton;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.nbt.CompoundTag;
@@ -25,6 +25,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -53,7 +54,7 @@ public class AxolotlCatalogScreen extends Screen {
 	private int hoveredSummonButton = -1;
 
 	public AxolotlCatalogScreen(Level world) {
-		super(NarratorChatListener.NO_TITLE);
+		super(Component.empty());
 
 		this.world = world;
 
@@ -199,13 +200,41 @@ public class AxolotlCatalogScreen extends Screen {
 	@Override
 	public boolean mouseClicked(double d, double e, int i) {
 		if (hoveredSummonButton != -1) {
-			ClientChatPreview preview = new ClientChatPreview(Minecraft.getInstance());
 			String command = "summon minecraft:axolotl ~ ~ ~ {\"Variant\":" + hoveredSummonButton + "}";
-			Minecraft.getInstance().gui.getChat().addRecentChat(command);
-			Component component = preview.pull(command);
-			Minecraft.getInstance().player.command(command, component);
+			executeCommand(command);
 		}
 		return super.mouseClicked(d, e, i);
+	}
+
+	public void executeCommand(String s) {
+		LocalPlayer player = Minecraft.getInstance().player;
+		if (player == null) return;
+		Class<? extends LocalPlayer> playerClass = player.getClass();
+
+		String mappedUnsignedCommand = "commandUnsigned";
+		String intermediaryUnsignedCommand = "method_44099";
+
+		String mappedCommand = "command";
+		String intermediaryCommand = "method_44098";
+
+		String versionString = SharedConstants.getCurrentVersion().getName();
+		try {
+			if (versionString.compareTo("1.19.1") >= 0) {
+				try {
+					playerClass.getDeclaredMethod(intermediaryUnsignedCommand, String.class).invoke(player, s);
+				} catch (NoSuchMethodException noSuchMethodException) {
+					playerClass.getDeclaredMethod(mappedUnsignedCommand, String.class).invoke(player, s);
+				}
+			} else {
+				try {
+					playerClass.getDeclaredMethod(intermediaryCommand, String.class).invoke(player, s);
+				} catch (NoSuchMethodException noSuchMethodException) {
+					playerClass.getDeclaredMethod(mappedCommand, String.class).invoke(player, s);
+				}
+			}
+		} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void updatePageButtons() {
