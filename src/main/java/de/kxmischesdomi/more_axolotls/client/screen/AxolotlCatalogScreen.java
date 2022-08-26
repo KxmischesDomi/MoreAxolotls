@@ -115,7 +115,7 @@ public class AxolotlCatalogScreen extends Screen {
 				// ENTITY IMAGE
 				int variantId = variant.getId();
 				int size = 50;
-				renderAxolotl(pageCenterX, frameCenterY + size / 6, size, -60, -40, variant);
+				renderAxolotl(pageCenterX - 8, frameCenterY + size / 6, size, -60, -40, variant);
 
 				// BUCKET ITEM
 				ItemStack bucketStack = Items.AXOLOTL_BUCKET.getDefaultInstance();
@@ -154,9 +154,16 @@ public class AxolotlCatalogScreen extends Screen {
 
 				renderAxolotlInfoText(matrices, title, pageCenterX, frameCenterY + frameHeight / 2 - this.font.lineHeight, 0, 1, true);
 
-				// HAS TO BE REPLACED WITH MINECRAFT'S SPLITTING STUFF :sob:
-				double scale = 0.7;
-				renderAxolotlInfoText(matrices, getLinesOfMessage("gui.more-axolotls.catalog.desc." + variant.getName()), (int) ((pageCenterX - bookWidth / 5.7) / scale), (int) ((midY - bookHeight / 11.2) / scale), 0, (float) scale, 10, 145);
+				float scale = 0.7f;
+				renderAxolotlInfoText(
+						matrices,
+						getLinesOfMessage("gui.more-axolotls.catalog.desc." + variant.getName()),
+						pageCenterX - frameWidth / 2 - 5,
+						frameCenterY + frameHeight / 2 + this.font.lineHeight,
+						0,
+						scale,
+						(int) (10 * scale)
+				);
 
 				renderPageIndicator(matrices, variantId, i == 1);
 			}
@@ -253,61 +260,21 @@ public class AxolotlCatalogScreen extends Screen {
 
 	}
 
-	public void renderAxolotlInfoText(PoseStack matrices, String[] text, int x, int y, int color, float scale, int spacing, int maxWidth) {
-		renderAxolotlInfoText(matrices, text, x, y, color, scale, spacing, maxWidth, false);
+	public void renderAxolotlInfoText(PoseStack matrices, String[] text, int x, int y, int color, float scale, int spacing) {
+		renderAxolotlInfoText(matrices, text, x, y, color, scale, spacing, false);
 	}
 
-	public void renderAxolotlInfoText(PoseStack matrices, String[] text, int x, int y, int color, float scale, int spacing, int maxWidth, boolean centered) {
+	public void renderAxolotlInfoText(PoseStack matrices, String[] text, int x, int y, int color, float scale, int spacing, boolean centered) {
 
 		try {
 			for (String s : text) {
-				int additionalSpacing = renderAxolotlInfoText(matrices, s, x, y, color, scale, spacing, centered, 0,maxWidth);
-				y += additionalSpacing;
+				renderAxolotlInfoText(matrices, Component.literal(s), x, y, color, scale, centered);
 				y += spacing;
 			}
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		}
 
-	}
-
-	public int renderAxolotlInfoText(PoseStack matrices, String text, int x, int y, int color, float scale, int spacing, boolean centered, int currentSpacing, int maxWidth) {
-
-		int additionalLines = 0;
-		int width = font.width(text);
-		if (width > maxWidth) {
-			StringBuilder oldText = new StringBuilder(text);
-			StringBuilder newText = new StringBuilder();
-
-			StringBuilder lastOldText = new StringBuilder(text);
-			StringBuilder lastNewText = new StringBuilder();
-
-			for (char c : text.toCharArray()) {
-
-				if (font.width(newText.toString() + c) > maxWidth + 5) {
-					oldText = new StringBuilder(lastOldText);
-					newText = new StringBuilder(lastNewText);
-					break;
-				}
-
-				if (String.valueOf(c).equals(" ")) {
-					lastOldText = new StringBuilder(oldText);
-					lastNewText = new StringBuilder(newText);
-				}
-
-				oldText.deleteCharAt(0);
-				newText.append(c);
-			}
-
-			if (!oldText.toString().trim().isEmpty()) {
-				text = newText.toString();
-				additionalLines++;
-				currentSpacing = renderAxolotlInfoText(matrices, oldText.toString().trim(), x, y + spacing, color, scale, spacing, centered, currentSpacing, maxWidth);
-			}
-		}
-
-		renderAxolotlInfoText(matrices, Component.literal(text), x, y, color, scale, centered);
-		return currentSpacing + additionalLines * spacing;
 	}
 
 	public void renderAxolotlInfoText(PoseStack matrices, Component text, int x, int y, int color, float scale) {
@@ -317,20 +284,21 @@ public class AxolotlCatalogScreen extends Screen {
 	public void renderAxolotlInfoText(PoseStack matrices, Component text, int x, int y, int color, float scale, boolean centered) {
 
 		matrices.pushPose();
-		matrices.scale(scale, scale, 1);
+		matrices.scale(scale, scale, scale);
 
 		if (centered) {
 			x -= this.font.width(text) / 2;
 		}
 
-		this.font.draw(matrices, text, x, y, color);
+		// draw with ignored scale
+		this.font.draw(matrices, text, x / scale, y / scale, color);
 		matrices.popPose();
 	}
 
 	public static String[] getLinesOfMessage(String key) {
 		String translate = I18n.get(key);
 		if (translate.equals(key)) return new String[] { I18n.get("gui.more-axolotls.catalog.no-desc") };
-		return translate.split("§ö");
+		return translate.split("\n");
 	}
 
 	public static Axolotl getEntityForVariant(Axolotl.Variant variant, Level world) {
