@@ -4,6 +4,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -40,7 +41,7 @@ public class AxolotlCatalogItem extends Item {
 
 	@Override
 	public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> list, TooltipFlag tooltipFlag) {
-		MutableComponent component = Component.translatable("item.more-axolotls.axolotl_catalog.tooltip");
+		MutableComponent component = new TextComponent("item.more-axolotls.axolotl_catalog.tooltip");
 		component.setStyle(Style.EMPTY.withItalic(true).withColor(ChatFormatting.GRAY));
 		list.add(component);
 		super.appendHoverText(itemStack, level, list, tooltipFlag);

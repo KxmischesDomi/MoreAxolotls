@@ -7,7 +7,6 @@ import de.kxmischesdomi.more_axolotls.common.AxolotlVariantManager;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.chat.ClientChatPreview;
 import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
@@ -19,12 +18,14 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.axolotl.Axolotl;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -136,7 +137,7 @@ public class AxolotlCatalogScreen extends Screen {
 
 					// Check if mouseX and mouseY hover over the command item
 					if (mouseX >= itemsX && mouseX <= itemsX + 16 && mouseY >= itemsY && mouseY <= itemsY + 16) {
-						renderTooltip(matrices, Component.literal("Summon"), mouseX, mouseY);
+						renderTooltip(matrices, new TextComponent("Summon"), mouseX, mouseY);
 						hoveredSummonButton = variantId;
 					}
 				}
@@ -145,11 +146,11 @@ public class AxolotlCatalogScreen extends Screen {
 				// INFO TEXTS
 				Component title;
 				if (AxolotlVariantManager.isSupportedVariant(variantId)) {
-					title = new TranslateableComponent("gui.more-axolotls.catalog.name." + variant.getName());
+					title = new TranslatableComponent("gui.more-axolotls.catalog.name." + variant.getName());
 				} else {
 					String name = variant.getName().replace("_", "");
 					name = String.valueOf(name.charAt(0)).toUpperCase(Locale.ROOT) + name.substring(1);
-					title = new TextComponent(titleName);
+					title = new TextComponent(name);
 				}
 
 				renderAxolotlInfoText(matrices, title, pageCenterX, frameCenterY + frameHeight / 2 - this.font.lineHeight, 0, 1, true);
@@ -199,11 +200,8 @@ public class AxolotlCatalogScreen extends Screen {
 	@Override
 	public boolean mouseClicked(double d, double e, int i) {
 		if (hoveredSummonButton != -1) {
-			ClientChatPreview preview = new ClientChatPreview(Minecraft.getInstance());
 			String command = "summon minecraft:axolotl ~ ~ ~ {\"Variant\":" + hoveredSummonButton + "}";
-			Minecraft.getInstance().gui.getChat().addRecentChat(command);
-			Component component = preview.pull(command);
-			Minecraft.getInstance().player.command(command, component);
+			Minecraft.getInstance().player.chat("/" + command);
 		}
 		return super.mouseClicked(d, e, i);
 	}
@@ -268,7 +266,7 @@ public class AxolotlCatalogScreen extends Screen {
 
 		try {
 			for (String s : text) {
-				renderAxolotlInfoText(matrices, Component.literal(s), x, y, color, scale, centered);
+				renderAxolotlInfoText(matrices, new TextComponent(s), x, y, color, scale, centered);
 				y += spacing;
 			}
 		} catch (Exception exception) {
