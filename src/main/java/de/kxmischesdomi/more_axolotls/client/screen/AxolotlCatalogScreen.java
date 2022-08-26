@@ -83,8 +83,8 @@ public class AxolotlCatalogScreen extends Screen {
 		final int uiWidth = 424;
 		final int uiHeight = 182;
 
-		final int bookWidth = 284;
-		final int bookHeight = 180;
+		final int bookWidth = 264;
+		final int bookHeight = 164;
 
 		final int x = (this.width - uiWidth) / 2;
 		final int y = (this.height - uiHeight) / 2;
@@ -92,8 +92,9 @@ public class AxolotlCatalogScreen extends Screen {
 		final int midX = this.width / 2;
 		final int midY = this.height / 2;
 
-		final int frameWidth = 105;
-		final int frameHeight = 105;
+		final int frameWidth = 103;
+		final int frameHeight = 45;
+		int frameCenterY = 46 + y;
 
 		int xOffset = - bookWidth / 4;
 
@@ -105,7 +106,6 @@ public class AxolotlCatalogScreen extends Screen {
 		for (int i = 0; i < 2; i++) {
 			int variantOrdinal = i + page * 2;
 			int pageCenterX = midX + xOffset;
-			int frameCenterY = (int) (midY - bookHeight / 5.2);
 
 			Minecraft client = Minecraft.getInstance();
 
@@ -115,22 +115,27 @@ public class AxolotlCatalogScreen extends Screen {
 				// ENTITY IMAGE
 				int variantId = variant.getId();
 				int size = 50;
-				renderAxolotl(pageCenterX - size / 6, frameCenterY, size, -60, -40, variant);
+				renderAxolotl(pageCenterX, frameCenterY + size / 6, size, -60, -40, variant);
 
 				// BUCKET ITEM
 				ItemStack bucketStack = Items.AXOLOTL_BUCKET.getDefaultInstance();
 				CompoundTag nbt = new CompoundTag();
 				nbt.putInt("Variant", variantId);
 				bucketStack.setTag(nbt);
-				client.getItemRenderer().renderAndDecorateFakeItem(bucketStack, (int) (midX + xOffset + (frameWidth / 2.9)), frameCenterY - (frameHeight / 20));
+
+				int itemsX = pageCenterX + frameWidth / 2 - 16;
+				int itemsY = frameCenterY + frameHeight / 2 - 16;
+
+				client.getItemRenderer().renderAndDecorateFakeItem(bucketStack, itemsX, itemsY);
+				itemsY -= 18;
 
 				// COMMAND ITEM
 				if (client.player.isCreative()) {
 					ItemStack commandStack = Items.COMMAND_BLOCK.getDefaultInstance();
-					client.getItemRenderer().renderAndDecorateFakeItem(commandStack, (int) (midX + xOffset + (frameWidth / 2.9)), frameCenterY - (frameHeight / 5));
+					client.getItemRenderer().renderAndDecorateFakeItem(commandStack, itemsX, itemsY);
 
 					// Check if mouseX and mouseY hover over the command item
-					if (mouseX > (int) (midX + xOffset + (frameWidth / 2.9)) && mouseX < (int) (midX + xOffset + (frameWidth / 2.9)) + 16 && mouseY > frameCenterY - (frameHeight / 5) && mouseY < frameCenterY - (frameHeight / 5) + 16) {
+					if (mouseX >= itemsX && mouseX <= itemsX + 16 && mouseY >= itemsY && mouseY <= itemsY + 16) {
 						renderTooltip(matrices, Component.literal("Summon"), mouseX, mouseY);
 						hoveredSummonButton = variantId;
 					}
@@ -147,7 +152,7 @@ public class AxolotlCatalogScreen extends Screen {
 					title = new TextComponent(titleName);
 				}
 
-				renderAxolotlInfoText(matrices, title, pageCenterX, midY - (bookHeight / 6), 0, 1, true);
+				renderAxolotlInfoText(matrices, title, pageCenterX, frameCenterY + frameHeight / 2 - this.font.lineHeight, 0, 1, true);
 
 				// HAS TO BE REPLACED WITH MINECRAFT'S SPLITTING STUFF :sob:
 				double scale = 0.7;
