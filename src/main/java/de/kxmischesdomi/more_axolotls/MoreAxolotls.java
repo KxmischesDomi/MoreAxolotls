@@ -1,12 +1,9 @@
 package de.kxmischesdomi.more_axolotls;
 
-import de.kxmischesdomi.more_axolotls.common.AxolotlAccessor;
 import de.kxmischesdomi.more_axolotls.common.registry.ModGameEvents;
 import de.kxmischesdomi.more_axolotls.common.registry.ModItems;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -27,20 +24,20 @@ public class MoreAxolotls implements ModInitializer {
 
 		// TEMPORARILY IMPLEMENTATION OF THE OPEN MOUTH
 		// TODO: IMPLEMENT OPEN MOUTH INTO AI WHEN HUNTING
-		UseEntityCallback.EVENT.register((player, level, hand, entity, hitResult) -> {
-
-			if (level.isClientSide) {
-				if (entity instanceof AxolotlAccessor accessor) {
-					if (player.getItemInHand(hand).is(Items.TROPICAL_FISH_BUCKET)) {
-						accessor.setMouthOpenTicks(10);
-					}
-
-				}
-			}
-
-
-			return InteractionResult.PASS;
-		});
+//		UseEntityCallback.EVENT.register((player, level, hand, entity, hitResult) -> {
+//
+//			if (level.isClientSide) {
+//				if (entity instanceof AxolotlAccessor accessor) {
+//					if (player.getItemInHand(hand).is(Items.TROPICAL_FISH_BUCKET)) {
+//						accessor.setMouthOpenTicks(10);
+//					}
+//
+//				}
+//			}
+//
+//
+//			return InteractionResult.PASS;
+//		});
 
 	}
 }
