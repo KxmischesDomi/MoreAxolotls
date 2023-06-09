@@ -16,6 +16,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -29,6 +30,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -63,8 +65,8 @@ public abstract class AxolotlMixin extends Animal implements AxolotlAccessor {
 	private static final UUID AXOLOTL_ARMOR_BONUS_ID = UUID.fromString("0b66fd1e-2b86-11ec-8d3d-0242ac130003");
 	private static final EntityDataAccessor<Float> LEAF_DURABILITY;
 	private static final EntityDataAccessor<Boolean> HAS_LEAF;
+	private static final EntityDataAccessor<Integer> MOUTH_OPEN_TICKS;
 	public int guiAge = 0;
-	public int mouthOpenTicks = 0;
 
 	public AxolotlMixin(EntityType<? extends Animal> entityType, Level world) {
 		super(entityType, world);
@@ -95,9 +97,14 @@ public abstract class AxolotlMixin extends Animal implements AxolotlAccessor {
 		cir.setReturnValue(random.nextInt(1200) < AxolotlVariantManager.RARE_BREEDS.get().size());
 	}
 
+	@Override
+	public void setInLove(@Nullable Player player) {
+		setMouthOpenTicks(10);
+		super.setInLove(player);
+	}
+
 	@Inject(method = "mobInteract", at = @At("HEAD"), cancellable = true)
 	public void mobInteract(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
-
 		ItemStack stackInHand = player.getItemInHand(hand);
 		if (stackInHand.is(Items.BIG_DRIPLEAF) && !hasLeaf()) {
 			setLeaf(true);
@@ -119,6 +126,7 @@ public abstract class AxolotlMixin extends Animal implements AxolotlAccessor {
 	public void defineSynchedData(CallbackInfo ci) {
 		this.entityData.define(HAS_LEAF, false);
 		this.entityData.define(LEAF_DURABILITY, 0f);
+		this.entityData.define(MOUTH_OPEN_TICKS, 0);
 	}
 
 	@Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
@@ -164,14 +172,19 @@ public abstract class AxolotlMixin extends Animal implements AxolotlAccessor {
 
 	@Inject(method = "baseTick", at = @At("HEAD"))
 	public void baseTick(CallbackInfo ci) {
-		if (level.isClientSide && mouthOpenTicks > 0) {
-			mouthOpenTicks--;
+		if (level.isClientSide && getMouthOpenTicks() > 0) {
+			setMouthOpenTicks(getMouthOpenTicks() - 1);
 		}
 		if (getVariant() == CustomAxolotlVariant.GLOW.getVariant()) {
 			if (random.nextInt(7) == 0) {
 				this.level.addParticle(ParticleTypes.GLOW, this.getRandomX(0.6), this.getRandomY(), this.getRandomZ(0.6), 0.0, 0.0, 0.0);
 			}
 		}
+	}
+
+	@Inject(method = "doHurtTarget", at = @At("HEAD"))
+	public void doHurtTarget(Entity entity, CallbackInfoReturnable<Boolean> cir) {
+		setMouthOpenTicks(Math.max(getMouthOpenTicks(), 10));
 	}
 
 	@Inject(method = "usePlayerItem", at = @At("HEAD"), cancellable = true)
@@ -236,12 +249,12 @@ public abstract class AxolotlMixin extends Animal implements AxolotlAccessor {
 
 	@Override
 	public int getMouthOpenTicks() {
-		return mouthOpenTicks;
+		return entityData.get(MOUTH_OPEN_TICKS);
 	}
 
 	@Override
 	public void setMouthOpenTicks(int ticks) {
-		this.mouthOpenTicks = ticks;
+		entityData.set(MOUTH_OPEN_TICKS, ticks);
 	}
 
 	@Override
@@ -261,6 +274,7 @@ public abstract class AxolotlMixin extends Animal implements AxolotlAccessor {
 	static {
 		HAS_LEAF = SynchedEntityData.defineId(Axolotl.class, EntityDataSerializers.BOOLEAN);
 		LEAF_DURABILITY = SynchedEntityData.defineId(Axolotl.class, EntityDataSerializers.FLOAT);
+		MOUTH_OPEN_TICKS = SynchedEntityData.defineId(Axolotl.class, EntityDataSerializers.INT);
 	}
 
 }
