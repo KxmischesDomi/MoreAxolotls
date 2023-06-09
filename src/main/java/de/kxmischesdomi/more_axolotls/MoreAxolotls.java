@@ -22,22 +22,5 @@ public class MoreAxolotls implements ModInitializer {
 			factories.add((entity, random) -> new MerchantOffer(new ItemStack(Items.BOOK), new ItemStack(Items.EMERALD, 3), new ItemStack(ModItems.AXOLOTL_CATALOG), 0, 1, 3, 0));
 		});
 
-		// TEMPORARILY IMPLEMENTATION OF THE OPEN MOUTH
-		// TODO: IMPLEMENT OPEN MOUTH INTO AI WHEN HUNTING
-//		UseEntityCallback.EVENT.register((player, level, hand, entity, hitResult) -> {
-//
-//			if (level.isClientSide) {
-//				if (entity instanceof AxolotlAccessor accessor) {
-//					if (player.getItemInHand(hand).is(Items.TROPICAL_FISH_BUCKET)) {
-//						accessor.setMouthOpenTicks(10);
-//					}
-//
-//				}
-//			}
-//
-//
-//			return InteractionResult.PASS;
-//		});
-
 	}
 }
