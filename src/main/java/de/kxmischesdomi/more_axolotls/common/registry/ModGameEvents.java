@@ -2,6 +2,7 @@ package de.kxmischesdomi.more_axolotls.common.registry;
 
 import de.kxmischesdomi.more_axolotls.MoreAxolotls;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.gameevent.GameEvent;
 
@@ -20,7 +21,7 @@ public class ModGameEvents {
 	}
 
 	private static GameEvent register(String id, int range) {
-		return Registry.register(Registry.GAME_EVENT, new ResourceLocation(MoreAxolotls.MOD_ID, id), new GameEvent(id, range));
+		return Registry.register(BuiltInRegistries.GAME_EVENT, new ResourceLocation(MoreAxolotls.MOD_ID, id), new GameEvent(id, range));
 	}
 
 }

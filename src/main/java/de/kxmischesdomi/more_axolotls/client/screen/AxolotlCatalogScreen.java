@@ -1,13 +1,13 @@
 package de.kxmischesdomi.more_axolotls.client.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import de.kxmischesdomi.more_axolotls.MoreAxolotls;
 import de.kxmischesdomi.more_axolotls.common.AxolotlVariantManager;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
@@ -68,18 +68,17 @@ public class AxolotlCatalogScreen extends Screen {
 
 	@Override
 	protected void init() {
-		this.addRenderableWidget(new Button(this.width / 2 - 100, this.height / 2 + 100, 200, 20, CommonComponents.GUI_DONE, (button) -> {
+		this.addRenderableWidget(Button.builder(CommonComponents.GUI_DONE, button -> {
 			this.minecraft.setScreen(null);
-		}));
+		}).bounds(this.width / 2 - 100, this.height / 2 + 100, 200, 20).build());
 		addPageButtons();
 	}
 
 	@Override
-	public void render(PoseStack matrices, int mouseX, int mouseY, float delta) {
-		this.renderBackground(matrices);
+	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+		this.renderBackground(guiGraphics);
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		RenderSystem.setShaderTexture(0, CATALOG);
 
 		final int uiWidth = 424;
 		final int uiHeight = 182;
@@ -100,7 +99,7 @@ public class AxolotlCatalogScreen extends Screen {
 		int xOffset = - bookWidth / 4;
 
 		// START RENDERING
-		blit(matrices, x, y, 0, 0, uiWidth, uiHeight, uiWidth, uiHeight);
+		guiGraphics.blit(CATALOG, x, y, 0, 0, uiWidth, uiHeight, uiWidth, uiHeight);
 
 		hoveredSummonButton = -1;
 
@@ -116,7 +115,7 @@ public class AxolotlCatalogScreen extends Screen {
 				// ENTITY IMAGE
 				int variantId = variant.getId();
 				int size = 50;
-				renderAxolotl(pageCenterX - 8, frameCenterY + size / 6, size, -60, -40, variant);
+				renderAxolotl(guiGraphics, pageCenterX - 8, frameCenterY + size / 6, size, -60, -40, variant);
 
 				// BUCKET ITEM
 				ItemStack bucketStack = Items.AXOLOTL_BUCKET.getDefaultInstance();
@@ -127,17 +126,17 @@ public class AxolotlCatalogScreen extends Screen {
 				int itemsX = pageCenterX + frameWidth / 2 - 16;
 				int itemsY = frameCenterY + frameHeight / 2 - 16;
 
-				client.getItemRenderer().renderAndDecorateFakeItem(bucketStack, itemsX, itemsY);
+				guiGraphics.renderFakeItem(bucketStack, itemsX, itemsY);
 				itemsY -= 18;
 
 				// COMMAND ITEM
 				if (client.player.isCreative()) {
 					ItemStack commandStack = Items.COMMAND_BLOCK.getDefaultInstance();
-					client.getItemRenderer().renderAndDecorateFakeItem(commandStack, itemsX, itemsY);
+					guiGraphics.renderFakeItem(commandStack, itemsX, itemsY);
 
 					// Check if mouseX and mouseY hover over the command item
 					if (mouseX >= itemsX && mouseX <= itemsX + 16 && mouseY >= itemsY && mouseY <= itemsY + 16) {
-						renderTooltip(matrices, Component.literal("Summon"), mouseX, mouseY);
+						guiGraphics.renderTooltip(Minecraft.getInstance().font, Component.literal("Summon"), mouseX, mouseY);
 						hoveredSummonButton = variantId;
 					}
 				}
@@ -153,11 +152,11 @@ public class AxolotlCatalogScreen extends Screen {
 					title = Component.literal(name);
 				}
 
-				renderAxolotlInfoText(matrices, title, pageCenterX, frameCenterY + frameHeight / 2 - this.font.lineHeight, 0, 1, true);
+				renderAxolotlInfoText(guiGraphics, title, pageCenterX, frameCenterY + frameHeight / 2 - this.font.lineHeight, 0, 1, true);
 
 				float scale = 0.7f;
 				renderAxolotlInfoText(
-						matrices,
+						guiGraphics,
 						getLinesOfMessage("gui.more-axolotls.catalog.desc." + variant.getName()),
 						pageCenterX - frameWidth / 2 - 5,
 						frameCenterY + frameHeight / 2 + this.font.lineHeight,
@@ -166,21 +165,21 @@ public class AxolotlCatalogScreen extends Screen {
 						(int) (10 * scale)
 				);
 
-				renderPageIndicator(matrices, variantId, i == 1);
+				renderPageIndicator(guiGraphics, variantId, i == 1);
 			}
 
 			xOffset = -xOffset;
 		}
 
-		super.render(matrices, mouseX, mouseY, delta);
+		super.render(guiGraphics, mouseX, mouseY, delta);
 	}
 
-	public void renderPageIndicator(PoseStack matrices, int id, boolean right) {
+	public void renderPageIndicator(GuiGraphics guiGraphics, int id, boolean right) {
 		int x = (this.width) / 2;
 		int y = (this.height) / 2;
 
 		Component rightPageIndicator = Component.literal(String.valueOf(id));
-		this.font.draw(matrices, rightPageIndicator, right ? x - font.width(rightPageIndicator) + 122 : x - 122, y - 78, 0);
+		guiGraphics.drawString(this.font, rightPageIndicator, right ? x - font.width(rightPageIndicator) + 122 : x - 122, y - 78, 0, false);
 	}
 
 	public void addPageButtons() {
@@ -261,17 +260,17 @@ public class AxolotlCatalogScreen extends Screen {
 		updatePageButtons();
 	}
 
-	public void renderAxolotl(int x, int y, int size, float mouseX, float mouseY, Axolotl.Variant variant) {
+	public void renderAxolotl(GuiGraphics guiGraphics, int x, int y, int size, float mouseX, float mouseY, Axolotl.Variant variant) {
 		Axolotl axolotlEntity = variants.get(variant);
 
 		if (axolotlEntity.tickCount == startAge) {
 			axolotlEntity.tickCount = 0;
 			for (int i = 0; i < 230; i++) {
-				InventoryScreen.renderEntityInInventory(x, y+1000, size, mouseX, mouseY, axolotlEntity);
+				InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics, x, y+1000, size, mouseX, mouseY, axolotlEntity);
 			}
 		}
 
-		InventoryScreen.renderEntityInInventory(x, y, size, mouseX, mouseY, axolotlEntity);
+		InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics, x, y, size, mouseX, mouseY, axolotlEntity);
 	}
 
 	public void reloadAxolotl() {
@@ -289,15 +288,15 @@ public class AxolotlCatalogScreen extends Screen {
 
 	}
 
-	public void renderAxolotlInfoText(PoseStack matrices, String[] text, int x, int y, int color, float scale, int spacing) {
-		renderAxolotlInfoText(matrices, text, x, y, color, scale, spacing, false);
+	public void renderAxolotlInfoText(GuiGraphics guiGraphics, String[] text, int x, int y, int color, float scale, int spacing) {
+		renderAxolotlInfoText(guiGraphics, text, x, y, color, scale, spacing, false);
 	}
 
-	public void renderAxolotlInfoText(PoseStack matrices, String[] text, int x, int y, int color, float scale, int spacing, boolean centered) {
+	public void renderAxolotlInfoText(GuiGraphics guiGraphics, String[] text, int x, int y, int color, float scale, int spacing, boolean centered) {
 
 		try {
 			for (String s : text) {
-				renderAxolotlInfoText(matrices, Component.literal(s), x, y, color, scale, centered);
+				renderAxolotlInfoText(guiGraphics, Component.literal(s), x, y, color, scale, centered);
 				y += spacing;
 			}
 		} catch (Exception exception) {
@@ -306,22 +305,22 @@ public class AxolotlCatalogScreen extends Screen {
 
 	}
 
-	public void renderAxolotlInfoText(PoseStack matrices, Component text, int x, int y, int color, float scale) {
-		renderAxolotlInfoText(matrices, text, x, y, color, scale, false);
+	public void renderAxolotlInfoText(GuiGraphics guiGraphics, Component text, int x, int y, int color, float scale) {
+		renderAxolotlInfoText(guiGraphics, text, x, y, color, scale, false);
 	}
 
-	public void renderAxolotlInfoText(PoseStack matrices, Component text, int x, int y, int color, float scale, boolean centered) {
+	public void renderAxolotlInfoText(GuiGraphics guiGraphics, Component text, int x, int y, int color, float scale, boolean centered) {
 
-		matrices.pushPose();
-		matrices.scale(scale, scale, scale);
+		guiGraphics.pose().pushPose();
+		guiGraphics.pose().scale(scale, scale, scale);
 
 		if (centered) {
 			x -= this.font.width(text) / 2;
 		}
 
 		// draw with ignored scale
-		this.font.draw(matrices, text, x / scale, y / scale, color);
-		matrices.popPose();
+		guiGraphics.drawString(this.font, text, ((int) (x / scale)), ((int) (y / scale)), color, false);
+		guiGraphics.pose().popPose();
 	}
 
 	public static String[] getLinesOfMessage(String key) {

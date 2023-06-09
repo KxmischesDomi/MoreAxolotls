@@ -172,12 +172,12 @@ public abstract class AxolotlMixin extends Animal implements AxolotlAccessor {
 
 	@Inject(method = "baseTick", at = @At("HEAD"))
 	public void baseTick(CallbackInfo ci) {
-		if (level.isClientSide && getMouthOpenTicks() > 0) {
+		if (level().isClientSide && getMouthOpenTicks() > 0) {
 			setMouthOpenTicks(getMouthOpenTicks() - 1);
 		}
 		if (getVariant() == CustomAxolotlVariant.GLOW.getVariant()) {
 			if (random.nextInt(7) == 0) {
-				this.level.addParticle(ParticleTypes.GLOW, this.getRandomX(0.6), this.getRandomY(), this.getRandomZ(0.6), 0.0, 0.0, 0.0);
+				this.level().addParticle(ParticleTypes.GLOW, this.getRandomX(0.6), this.getRandomY(), this.getRandomZ(0.6), 0.0, 0.0, 0.0);
 			}
 		}
 	}
@@ -209,7 +209,7 @@ public abstract class AxolotlMixin extends Animal implements AxolotlAccessor {
 			setLeafDurability(0);
 		}
 
-		if (!level.isClientSide) {
+		if (!level().isClientSide) {
 			this.getAttribute(Attributes.ARMOR).removeModifier(AXOLOTL_ARMOR_BONUS_ID);
 
 			if (hasLeaf()) {
@@ -220,7 +220,7 @@ public abstract class AxolotlMixin extends Animal implements AxolotlAccessor {
 	}
 
 	@Override
-	protected void hurtArmor(DamageSource source, float amount) {
+	public void hurtArmor(DamageSource source, float amount) {
 		setLeafDurability(getLeafDurability() - amount);
 		super.hurtArmor(source, amount);
 	}

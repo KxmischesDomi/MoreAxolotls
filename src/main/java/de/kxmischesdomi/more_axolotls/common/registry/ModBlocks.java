@@ -2,6 +2,7 @@ package de.kxmischesdomi.more_axolotls.common.registry;
 
 import de.kxmischesdomi.more_axolotls.MoreAxolotls;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 
@@ -12,7 +13,7 @@ import net.minecraft.world.level.block.Block;
 public class ModBlocks {
 
 	private static <T extends Block> T register(String name, T block) {
-		Registry.register(Registry.BLOCK, new ResourceLocation(MoreAxolotls.MOD_ID, name), block);
+		Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(MoreAxolotls.MOD_ID, name), block);
 		return block;
 	}
 

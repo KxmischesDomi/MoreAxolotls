@@ -3,6 +3,7 @@ package de.kxmischesdomi.more_axolotls.common.registry;
 import de.kxmischesdomi.more_axolotls.MoreAxolotls;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -14,7 +15,7 @@ import net.minecraft.world.entity.EntityType;
 public class ModEntities {
 
 	private static <T extends Entity> EntityType<T> register(String id, FabricEntityTypeBuilder<T> builder) {
-		return Registry.register(Registry.ENTITY_TYPE, new ResourceLocation(MoreAxolotls.MOD_ID, id), builder.build());
+		return Registry.register(BuiltInRegistries.ENTITY_TYPE, new ResourceLocation(MoreAxolotls.MOD_ID, id), builder.build());
 	}
 
 }
