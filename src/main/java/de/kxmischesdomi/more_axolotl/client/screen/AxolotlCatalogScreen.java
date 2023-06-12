@@ -1,9 +1,11 @@
 package de.kxmischesdomi.more_axolotl.client.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.kxmischesdomi.more_axolotl.MoreAxolotl;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.SharedConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
@@ -22,6 +24,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -210,7 +213,32 @@ public class AxolotlCatalogScreen extends Screen {
 	public void executeCommand(String s) {
 		LocalPlayer player = Minecraft.getInstance().player;
 		if (player == null) return;
-		Minecraft.getInstance().player.connection.sendCommand(s);
+		Class<? extends LocalPlayer> playerClass = player.getClass();
+
+		String mappedUnsignedCommand = "commandUnsigned";
+		String intermediaryUnsignedCommand = "method_44099";
+
+		String mappedCommand = "command";
+		String intermediaryCommand = "method_44098";
+
+		String versionString = SharedConstants.getCurrentVersion().getName();
+		try {
+			if (versionString.compareTo("1.19.1") >= 0) {
+				try {
+					playerClass.getDeclaredMethod(intermediaryUnsignedCommand, String.class).invoke(player, s);
+				} catch (NoSuchMethodException noSuchMethodException) {
+					playerClass.getDeclaredMethod(mappedUnsignedCommand, String.class).invoke(player, s);
+				}
+			} else {
+				try {
+					playerClass.getDeclaredMethod(intermediaryCommand, String.class).invoke(player, s);
+				} catch (NoSuchMethodException noSuchMethodException) {
+					playerClass.getDeclaredMethod(mappedCommand, String.class).invoke(player, s);
+				}
+			}
+		} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void updatePageButtons() {
