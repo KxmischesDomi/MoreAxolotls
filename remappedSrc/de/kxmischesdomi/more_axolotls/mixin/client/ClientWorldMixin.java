@@ -1,7 +1,7 @@
-package de.kxmischesdomi.more_axolotls.mixin.client;
+package de.kxmischesdomi.more_axolotl.mixin.client;
 
-import de.kxmischesdomi.more_axolotls.client.screen.AxolotlCatalogScreen;
-import de.kxmischesdomi.more_axolotls.common.AxolotlAccessor;
+import de.kxmischesdomi.more_axolotl.client.screen.AxolotlCatalogScreen;
+import de.kxmischesdomi.more_axolotl.common.AxolotlAccessor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

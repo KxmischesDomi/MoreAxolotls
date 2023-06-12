@@ -1,9 +1,9 @@
-package de.kxmischesdomi.more_axolotls.common;
+package de.kxmischesdomi.more_axolotl.common;
 
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
-import de.kxmischesdomi.more_axolotls.mixin.server.AxolotlVariantAccessor;
+import de.kxmischesdomi.more_axolotl.mixin.server.AxolotlVariantAccessor;
 import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;

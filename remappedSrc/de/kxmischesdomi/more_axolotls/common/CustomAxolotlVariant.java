@@ -1,4 +1,4 @@
-package de.kxmischesdomi.more_axolotls.common;
+package de.kxmischesdomi.more_axolotl.common;
 
 import net.minecraft.world.entity.animal.axolotl.Axolotl;
 

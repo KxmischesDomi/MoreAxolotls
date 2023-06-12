@@ -1,6 +1,6 @@
-package de.kxmischesdomi.more_axolotls.mixin.client;
+package de.kxmischesdomi.more_axolotl.mixin.client;
 
-import de.kxmischesdomi.more_axolotls.common.AxolotlVariantManager;
+import de.kxmischesdomi.more_axolotl.common.AxolotlVariantManager;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

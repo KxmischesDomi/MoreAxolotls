@@ -1,8 +1,8 @@
-package de.kxmischesdomi.more_axolotls.client.screen;
+package de.kxmischesdomi.more_axolotl.client.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import de.kxmischesdomi.more_axolotls.MoreAxolotls;
+import de.kxmischesdomi.more_axolotl.MoreAxolotls;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
@@ -128,7 +128,7 @@ public class AxolotlCatalogScreen extends Screen {
 
 				// HAS TO BE REPLACED WITH MINECRAFT'S SPLITTING STUFF :sob:
 				double scale = 0.7;
-				renderAxolotlInfoText(matrices, getLinesOfMessage("gui.more-axolotls.catalog.desc." + variant.getName()), (int) ((pageCenterX - bookWidth / 5.7) / scale), (int) ((midY - bookHeight / 11.2) / scale), 0, (float) scale, 10, 145);
+				renderAxolotlInfoText(matrices, getLinesOfMessage("gui.more-axolotl.catalog.desc." + variant.getName()), (int) ((pageCenterX - bookWidth / 5.7) / scale), (int) ((midY - bookHeight / 11.2) / scale), 0, (float) scale, 10, 145);
 
 				renderPageIndicator(matrices, variantId, i == 1);
 			}
@@ -289,7 +289,7 @@ public class AxolotlCatalogScreen extends Screen {
 
 	public static String[] getLinesOfMessage(String key) {
 		String translate = I18n.get(key);
-		if (translate.equals(key)) return new String[] { I18n.get("gui.more-axolotls.catalog.no-desc") };
+		if (translate.equals(key)) return new String[] { I18n.get("gui.more-axolotl.catalog.no-desc") };
 		return translate.split("§ö");
 	}
 

@@ -1,33 +1,33 @@
 {
 	"schemaVersion": 1,
-	"id": "more-axolotls",
+	"id": "more-axolotl",
 	"version": "${version}",
 
-	"name": "More Axolotls",
+	"name": "More Axolotl",
 	"description": "Adds many new realistic axolotl types",
 	"authors": [
 		"KxmischesDomi",
 		"SR VRAXX"
 	],
 	"contact": {
-		"homepage": "https://www.curseforge.com/minecraft/mc-mods/more-axolotls",
+		"homepage": "https://www.curseforge.com/minecraft/mc-mods/more-axolotl",
 		"sources": "https://github.com/KxmischesDomi/MoreAxolotls",
 		"issues": "https://github.com/KxmischesDomi/MoreAxolotls/issues"
 	},
 
 	"license": "Custom License",
-	"icon": "assets/more-axolotls/icon.png",
+	"icon": "assets/more-axolotl/icon.png",
 
 	"entrypoints": {
 		"main": [
-			"de.kxmischesdomi.more_axolotls.MoreAxolotls"
+			"de.kxmischesdomi.more_axolotl.MoreAxolotl"
 		],
 		"client": [
-			"de.kxmischesdomi.more_axolotls.MoreAxolotlsClient"
+			"de.kxmischesdomi.more_axolotl.MoreAxolotlClient"
 		]
 	},
 	"mixins": [
-		"more-axolotls.mixins.json"
+		"more-axolotl.mixins.json"
 	],
 
 	"depends": {

@@ -1,15 +1,15 @@
-package de.kxmischesdomi.more_axolotls;
+package de.kxmischesdomi.more_axolotl;
 
-import de.kxmischesdomi.more_axolotls.common.AxolotlAccessor;
-import de.kxmischesdomi.more_axolotls.common.registry.ModGameEvents;
-import de.kxmischesdomi.more_axolotls.common.registry.ModItems;
+import de.kxmischesdomi.more_axolotl.common.AxolotlAccessor;
+import de.kxmischesdomi.more_axolotl.common.registry.ModGameEvents;
+import de.kxmischesdomi.more_axolotl.common.registry.ModItems;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 
 public class MoreAxolotls implements ModInitializer {
 
-	public static final String MOD_ID = "more-axolotls";
+	public static final String MOD_ID = "more-axolotl";
 
 	@Override
 	public void onInitialize() {
