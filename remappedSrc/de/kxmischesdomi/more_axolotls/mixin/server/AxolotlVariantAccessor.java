@@ -1,4 +1,4 @@
-package de.kxmischesdomi.more_axolotls.mixin.server;
+package de.kxmischesdomi.more_axolotl.mixin.server;
 
 import net.minecraft.world.entity.animal.axolotl.Axolotl;
 import org.spongepowered.asm.mixin.Mixin;

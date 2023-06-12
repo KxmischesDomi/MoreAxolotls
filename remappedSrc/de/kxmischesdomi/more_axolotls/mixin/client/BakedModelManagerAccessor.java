@@ -1,4 +1,4 @@
-package de.kxmischesdomi.more_axolotls.mixin.client;
+package de.kxmischesdomi.more_axolotl.mixin.client;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;

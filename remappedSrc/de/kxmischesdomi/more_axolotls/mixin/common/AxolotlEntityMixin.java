@@ -1,8 +1,8 @@
-package de.kxmischesdomi.more_axolotls.mixin.common;
+package de.kxmischesdomi.more_axolotl.mixin.common;
 
-import de.kxmischesdomi.more_axolotls.common.AxolotlAccessor;
-import de.kxmischesdomi.more_axolotls.common.AxolotlVariantManager;
-import de.kxmischesdomi.more_axolotls.mixin.server.AxolotlVariantAccessor;
+import de.kxmischesdomi.more_axolotl.common.AxolotlAccessor;
+import de.kxmischesdomi.more_axolotl.common.AxolotlVariantManager;
+import de.kxmischesdomi.more_axolotl.mixin.server.AxolotlVariantAccessor;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

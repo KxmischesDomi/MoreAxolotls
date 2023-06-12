@@ -1,6 +1,6 @@
-package de.kxmischesdomi.more_axolotls.client.feature;
+package de.kxmischesdomi.more_axolotl.client.feature;
 
-import de.kxmischesdomi.more_axolotls.common.AxolotlAccessor;
+import de.kxmischesdomi.more_axolotl.common.AxolotlAccessor;
 import net.minecraft.client.model.AxolotlModel;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.resources.ResourceLocation;

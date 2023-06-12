@@ -1,6 +1,6 @@
-package de.kxmischesdomi.more_axolotls.mixin.common;
+package de.kxmischesdomi.more_axolotl.mixin.common;
 
-import de.kxmischesdomi.more_axolotls.common.CustomAxolotlVariant;
+import de.kxmischesdomi.more_axolotl.common.CustomAxolotlVariant;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

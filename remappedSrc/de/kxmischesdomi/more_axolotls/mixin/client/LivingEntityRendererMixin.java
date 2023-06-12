@@ -1,8 +1,8 @@
-package de.kxmischesdomi.more_axolotls.mixin.client;
+package de.kxmischesdomi.more_axolotl.mixin.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import de.kxmischesdomi.more_axolotls.client.RainbowRendering;
-import de.kxmischesdomi.more_axolotls.common.CustomAxolotlVariant;
+import de.kxmischesdomi.more_axolotl.client.RainbowRendering;
+import de.kxmischesdomi.more_axolotl.common.CustomAxolotlVariant;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.world.entity.LivingEntity;

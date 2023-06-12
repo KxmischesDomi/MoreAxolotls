@@ -1,6 +1,6 @@
-package de.kxmischesdomi.more_axolotls.mixin.client;
+package de.kxmischesdomi.more_axolotl.mixin.client;
 
-import de.kxmischesdomi.more_axolotls.common.CustomAxolotlVariant;
+import de.kxmischesdomi.more_axolotl.common.CustomAxolotlVariant;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;

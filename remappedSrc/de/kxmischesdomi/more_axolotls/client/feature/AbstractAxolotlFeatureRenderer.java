@@ -1,10 +1,10 @@
-package de.kxmischesdomi.more_axolotls.client.feature;
+package de.kxmischesdomi.more_axolotl.client.feature;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import de.kxmischesdomi.more_axolotls.client.RainbowRendering;
-import de.kxmischesdomi.more_axolotls.common.AxolotlVariantManager;
-import de.kxmischesdomi.more_axolotls.common.CustomAxolotlVariant;
+import de.kxmischesdomi.more_axolotl.client.RainbowRendering;
+import de.kxmischesdomi.more_axolotl.common.AxolotlVariantManager;
+import de.kxmischesdomi.more_axolotl.common.CustomAxolotlVariant;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.AxolotlModel;

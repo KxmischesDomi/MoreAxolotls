@@ -1,7 +1,7 @@
-package de.kxmischesdomi.more_axolotls.common.registry;
+package de.kxmischesdomi.more_axolotl.common.registry;
 
-import de.kxmischesdomi.more_axolotls.MoreAxolotls;
-import de.kxmischesdomi.more_axolotls.common.item.AxolotlCatalogItem;
+import de.kxmischesdomi.more_axolotl.MoreAxolotls;
+import de.kxmischesdomi.more_axolotl.common.item.AxolotlCatalogItem;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;

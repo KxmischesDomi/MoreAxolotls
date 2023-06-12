@@ -1,6 +1,6 @@
-package de.kxmischesdomi.more_axolotls.common.registry;
+package de.kxmischesdomi.more_axolotl.common.registry;
 
-import de.kxmischesdomi.more_axolotls.MoreAxolotls;
+import de.kxmischesdomi.more_axolotl.MoreAxolotls;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;

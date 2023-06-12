@@ -1,8 +1,8 @@
-package de.kxmischesdomi.more_axolotls.mixin.client;
+package de.kxmischesdomi.more_axolotl.mixin.client;
 
-import de.kxmischesdomi.more_axolotls.client.feature.AbstractAxolotlFeatureRenderer;
-import de.kxmischesdomi.more_axolotls.client.feature.AxolotlLeafFeatureRenderer;
-import de.kxmischesdomi.more_axolotls.client.feature.AxolotlMouthFeatureRenderer;
+import de.kxmischesdomi.more_axolotl.client.feature.AbstractAxolotlFeatureRenderer;
+import de.kxmischesdomi.more_axolotl.client.feature.AxolotlLeafFeatureRenderer;
+import de.kxmischesdomi.more_axolotl.client.feature.AxolotlMouthFeatureRenderer;
 import net.minecraft.client.model.AxolotlModel;
 import net.minecraft.client.renderer.entity.AxolotlRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;

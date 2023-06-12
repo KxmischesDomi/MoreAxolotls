@@ -1,6 +1,6 @@
-package de.kxmischesdomi.more_axolotls.common.item;
+package de.kxmischesdomi.more_axolotl.common.item;
 
-import de.kxmischesdomi.more_axolotls.client.screen.AxolotlCatalogScreen;
+import de.kxmischesdomi.more_axolotl.client.screen.AxolotlCatalogScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;

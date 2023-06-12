@@ -1,6 +1,6 @@
-package de.kxmischesdomi.more_axolotls;
+package de.kxmischesdomi.more_axolotl;
 
-import de.kxmischesdomi.more_axolotls.common.AxolotlVariantManager;
+import de.kxmischesdomi.more_axolotl.common.AxolotlVariantManager;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
