@@ -128,7 +128,7 @@ public class AxolotlCatalogScreen extends Screen {
 
 				// HAS TO BE REPLACED WITH MINECRAFT'S SPLITTING STUFF :sob:
 				double scale = 0.7;
-				renderAxolotlInfoText(matrices, getLinesOfMessage("gui.more-axolotl.catalog.desc." + variant.getName()), (int) ((pageCenterX - bookWidth / 5.7) / scale), (int) ((midY - bookHeight / 11.2) / scale), 0, (float) scale, 10, 145);
+				renderAxolotlInfoText(matrices, getLinesOfMessage("more-axolotl.desc." + variant.getName()), (int) ((pageCenterX - bookWidth / 5.7) / scale), (int) ((midY - bookHeight / 11.2) / scale), 0, (float) scale, 10, 145);
 
 				renderPageIndicator(matrices, variantId, i == 1);
 			}

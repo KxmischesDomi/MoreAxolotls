@@ -4,7 +4,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import de.kxmischesdomi.more_axolotl.MoreAxolotl;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.SharedConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
@@ -23,7 +22,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -142,13 +140,14 @@ public class AxolotlCatalogScreen extends Screen {
 
 
 				// INFO TEXTS
-				String translationString = "gui.more-axolotl.catalog.name." + location.getNamespace() + "." + location.getPath();
+				String translationString = "mavapi.variant." + location.getNamespace() + "." + location.getPath();
+				System.out.println(translationString);
 				Component title;
 
 				if (I18n.exists(translationString)) {
 					title = Component.translatable(translationString);
 				} else {
-					String name = variant.getName().replace("_", "");
+					String name = location.getPath().replace("_", "");
 					name = String.valueOf(name.charAt(0)).toUpperCase(Locale.ROOT) + name.substring(1);
 					title = Component.literal(name);
 				}
@@ -157,7 +156,7 @@ public class AxolotlCatalogScreen extends Screen {
 
 				float scale = 0.7f;
 
-				String decscriptionString = "gui.more-axolotl.catalog.desc." + location.getNamespace() + "." + location.getPath();
+				String decscriptionString = "more-axolotl.desc." + location.getNamespace() + "." + location.getPath();
 
 				renderAxolotlInfoText(
 						matrices,
@@ -303,7 +302,7 @@ public class AxolotlCatalogScreen extends Screen {
 
 	public static String[] getLinesOfMessage(String key) {
 		String translate = I18n.get(key);
-		if (translate.equals(key)) return new String[] { I18n.get("gui.more-axolotl.catalog.no-desc") };
+		if (translate.equals(key)) return new String[] { I18n.get("more-axolotl.no-desc") };
 		return translate.split("\n");
 	}
 
