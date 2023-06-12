@@ -80,23 +80,4 @@ public class AxolotlVariantManager {
 		return null;
 	}
 
-	public static Variant getVariantById(int id) {
-		return ID_TO_VARIANT.get().get(id);
-	}
-
-	// TODO: REPLACE WITH HASHSET SUPPLIER
-	public static boolean isSupportedVariant(int id) {
-
-		if (id > 4) {
-			for (CustomAxolotlVariant value : CustomAxolotlVariant.values()) {
-				if (value.getVariant().getId() == id) {
-					return true;
-				}
-			}
-			return false;
-		}
-
-		return true;
-	}
-
 }
