@@ -144,7 +144,6 @@ public class AxolotlCatalogScreen extends Screen {
 
 				// INFO TEXTS
 				String translationString = "mavapi.variant." + location.getNamespace() + "." + location.getPath();
-				System.out.println(translationString);
 				Component title;
 
 				if (I18n.exists(translationString)) {
