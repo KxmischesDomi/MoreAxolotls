@@ -1,7 +1,6 @@
 package de.kxmischesdomi.more_axolotl;
 
 import de.kxmischesdomi.more_axolotl.common.CustomAxolotlVariant;
-import de.kxmischesdomi.more_axolotl.common.registry.ModGameEvents;
 import de.kxmischesdomi.more_axolotl.common.registry.ModItems;
 import fabric.io.github.akashiikun.mavapi.v1.api.ModdedAxolotlVariant;
 import net.fabricmc.api.ModInitializer;
@@ -20,7 +19,6 @@ public class MoreAxolotl implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		ModItems.init();
-		ModGameEvents.init();
 
 		TradeOfferHelper.registerVillagerOffers(VillagerProfession.FISHERMAN, 1, factories -> {
 			factories.add((entity, random) -> new MerchantOffer(new ItemStack(Items.BOOK), new ItemStack(Items.EMERALD, 3), new ItemStack(ModItems.AXOLOTL_CATALOG), 0, 1, 3, 0));

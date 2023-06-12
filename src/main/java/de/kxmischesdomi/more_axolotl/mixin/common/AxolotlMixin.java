@@ -54,8 +54,6 @@ public abstract class AxolotlMixin extends Animal implements AxolotlAccessor {
 
 	@Shadow public abstract void setFromBucket(boolean fromBucket);
 
-	@Shadow protected abstract void setVariant(Variant variant);
-
 	@Shadow public abstract Variant getVariant();
 
 	@Shadow public abstract MobType getMobType();
@@ -68,11 +66,6 @@ public abstract class AxolotlMixin extends Animal implements AxolotlAccessor {
 
 	public AxolotlMixin(EntityType<? extends Animal> entityType, Level world) {
 		super(entityType, world);
-	}
-
-	@Inject(method = "getVariant", at = @At("HEAD"), cancellable = true)
-	public void getVariant(CallbackInfoReturnable<Variant> cir) {
-//		cir.setReturnValue(AxolotlVariantManager.getVariantById(entityData.get(DATA_VARIANT)));
 	}
 
 	@ModifyArgs(method = "getBreedOffspring", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/animal/axolotl/Axolotl;setVariant(Lnet/minecraft/world/entity/animal/axolotl/Axolotl$Variant;)V"))
@@ -92,7 +85,8 @@ public abstract class AxolotlMixin extends Animal implements AxolotlAccessor {
 
 	@Inject(method = "useRareVariant", at = @At("HEAD"), cancellable = true)
 	private static void useRareVariant(RandomSource random, CallbackInfoReturnable<Boolean> cir) {
-		cir.setReturnValue(random.nextInt(1200) < AxolotlVariantManager.RARE_BREEDS.get().size());
+		boolean b = random.nextInt(1200) < AxolotlVariantManager.RARE_BREEDS.get().size() - 1;
+		if (b) cir.setReturnValue(true);
 	}
 
 	@Override
@@ -149,20 +143,8 @@ public abstract class AxolotlMixin extends Animal implements AxolotlAccessor {
 
 	@Inject(method = "loadFromBucketTag", at = @At("HEAD"), cancellable = true)
 	public void loadFromBucketTag(CompoundTag nbt, CallbackInfo ci) {
-//		Bucketable.loadDefaultDataFromBucketTag(this, nbt);
-//		this.setVariant(AxolotlVariantManager.getVariantById(nbt.getInt("Variant")));
 		entityData.set(HAS_LEAF, nbt.getBoolean("HasLeaf"));
 		entityData.set(LEAF_DURABILITY, nbt.getFloat("LeafDurability"));
-
-//		if (nbt.contains("Age")) {
-//			this.setAge(nbt.getInt("Age"));
-//		}
-//
-//		if (nbt.contains("HuntingCooldown")) {
-//			this.getBrain().setMemoryWithExpiry(MemoryModuleType.HAS_HUNTING_COOLDOWN, true, nbt.getLong("HuntingCooldown"));
-//		}
-//
-//		ci.cancel();
 	}
 
 	@Inject(method = "baseTick", at = @At("HEAD"))
