@@ -24,16 +24,20 @@ public class MoreAxolotl implements ModInitializer {
 			factories.add((entity, random) -> new MerchantOffer(new ItemStack(Items.BOOK), new ItemStack(Items.EMERALD, 3), new ItemStack(ModItems.AXOLOTL_CATALOG), 0, 1, 3, 0));
 		});
 
+		int legacyIndex = 99;
+
 		for (CustomAxolotlVariant variant : CustomAxolotlVariant.values()) {
+			legacyIndex++;
+
 			ModdedAxolotlVariant.Builder builder = ModdedAxolotlVariant.register(new ResourceLocation(MOD_ID, variant.getName()));
 
+			builder.setLegacyIndex(legacyIndex);
 			if (variant.isNatural()) {
 				builder.natural();
 			}
 
 			Axolotl.Variant build = builder.build();
 			variant.setVariant(build);
-
 
 		}
 
