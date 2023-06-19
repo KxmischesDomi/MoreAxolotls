@@ -29,9 +29,8 @@ public class MoreAxolotl implements ModInitializer {
 		for (CustomAxolotlVariant variant : CustomAxolotlVariant.values()) {
 			legacyIndex++;
 
-			ModdedAxolotlVariant.Builder builder = ModdedAxolotlVariant.register(new ResourceLocation(MOD_ID, variant.getName()));
+			ModdedAxolotlVariant.Builder builder = ModdedAxolotlVariant.register(new ResourceLocation(MOD_ID, variant.getName())).setLegacyIndex(legacyIndex);
 
-			builder.setLegacyIndex(legacyIndex);
 			if (variant.isNatural()) {
 				builder.natural();
 			}
