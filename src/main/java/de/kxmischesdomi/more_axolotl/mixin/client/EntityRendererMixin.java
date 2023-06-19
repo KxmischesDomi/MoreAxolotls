@@ -21,8 +21,9 @@ public abstract class EntityRendererMixin<T extends Entity> {
 	protected void getBlockLight(T entity, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
 		if (entity instanceof Axolotl axolotl) {
 			Axolotl.Variant variant = axolotl.getVariant();
-			if (variant == CustomAxolotlVariant.GLOW.getVariant())
+			if (variant == CustomAxolotlVariant.GLOW.getVariant() || variant == CustomAxolotlVariant.RAINBOW.getVariant()) {
 				cir.setReturnValue(15);
+			}
 		}
 	}
 
